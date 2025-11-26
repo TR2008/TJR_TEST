@@ -1,0 +1,50 @@
+<div style="padding:12px; max-width:720px; box-sizing:border-box;">
+  <!-- Banner / logo no topo -->
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+    <img src="{{ url_for('static', filename='images/TJRArcondicionado.png') }}"
+         alt="TJR - Ar Condicionado"
+         style="height:48px; width:auto; display:block;">
+    <h3 style="margin:0;font-size:1.05rem;">Detalhe 11 — Diagnóstico e Reparação de Avarias (inclui deslocações 50 km)</h3>
+  </div>
+
+  <div class="muted" style="margin-bottom:8px;">Serviço técnico para deteção e reparação de avarias com consumíveis aplicados; deslocações incluídas até 50 km a partir da base.</div>
+
+  <ul style="margin:8px 0 12px 18px; color: #2b2b2b;">
+    <li><strong>Diagnóstico de avaria</strong> — inspeção, testes elétricos e frigoríficos, verificação de componentes e relatório com causa e intervenção recomendada</li>
+    <li><strong>Reparação da avaria</strong> — mão-de-obra para reparo (substituição/ajuste de componentes) incluída quando possível durante a intervenção</li>
+    <li><strong>Consumíveis aplicados</strong> — selantes, gasas, braçadeiras, veda-roscas, óleo, filtros-dry e outros consumíveis de pequena monta incluídos no serviço</li>
+    <li><strong>Deslocações</strong> — deslocações e tempo de deslocação incluídos para endereços até 50 km do centro de operações (fora deste raio serão cobradas despesas adicionais)</li>
+    <li><strong>Peças de substituição</strong> — peças maiores (compressor, placa electrónica, trocador, etc.) não incluídas; substituição só após orçamento e aprovação do cliente</li>
+    <li><strong>Relatório</strong> — relatório final entregue ao cliente com trabalhos realizados, consumíveis usados e recomendações</li>
+  </ul>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+    <figure style="flex:1 1 220px; margin:0;">
+      <a href="{{ url_for('static', filename='images/diagnostico_avaria.jpg') }}" target="_blank" rel="noopener">
+        <img src="{{ url_for('static', filename='images/diagnostico_avaria.jpg') }}"
+             alt="Diagnóstico de avaria"
+             style="width:100%; height:auto; border-radius:8px; display:block; box-shadow:0 6px 18px rgba(0,0,0,0.12);"
+             loading="lazy">
+      </a>
+      <figcaption style="font-size:13px; color:#555; margin-top:6px;">Inspeção e diagnóstico no local</figcaption>
+    </figure>
+
+    <figure style="flex:1 1 220px; margin:0;">
+      <a href="{{ url_for('static', filename='images/consumiveis.jpg') }}" target="_blank" rel="noopener">
+        <img src="{{ url_for('static', filename='images/consumiveis.jpg') }}"
+             alt="Consumíveis"
+             style="width:100%; height:auto; border-radius:8px; display:block; box-shadow:0 6px 18px rgba(0,0,0,0.12);"
+             loading="lazy">
+      </a>
+      <figcaption style="font-size:13px; color:#555; margin-top:6px;">Consumíveis de uso habitual incluídos</figcaption>
+    </figure>
+  </div>
+
+  <div style="margin-top:12px;" class="muted">Observações importantes:</div>
+  <ul style="margin:6px 0 0 18px; color: #2b2b2b;">
+    <li>O serviço cobre intervenções de diagnóstico e reparação no local, incluindo consumíveis de pequena monta.</li>
+    <li>Se for necessária substituição de peças principais, a peça e sobreselentes</li>
+
+  </ul>
+</div>
+

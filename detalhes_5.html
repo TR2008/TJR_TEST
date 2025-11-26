@@ -1,0 +1,55 @@
+<div style="padding:12px; max-width:720px; box-sizing:border-box;">
+  <!-- Banner / logo no topo -->
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+    <img src="{{ url_for('static', filename='images/TJRArcondicionado.png') }}"
+         alt="TJR - Ar Condicionado"
+         style="height:48px; width:auto; display:block;">
+    <h3 style="margin:0;font-size:1.05rem;">Kit Montagem — 3× Calhas Metálicas + Buchas, Varão, Anilhas e Porcas</h3>
+  </div>
+
+  <div class="muted" style="margin-bottom:8px;">Pacote de montagem com os principais componentes para fixação e instalação em estruturas metálicas ou de alvenaria.</div>
+
+  <ul style="margin:8px 0 12px 18px; color: #2b2b2b;">
+    <li><strong>3 × Calhas metálicas</strong> — para suporte/encaixe (comprimento padrão a confirmar)</li>
+    <li><strong>Buchas metálicas</strong> — para fixação em alvenaria ou superfícies sólidas</li>
+    <li><strong>Varão roscado</strong> — para suspensão/ajuste de altura</li>
+    <li><strong>Anilhas de mola</strong> — para prevenir afrouxamento</li>
+    <li><strong>Anilhas normais (planas)</strong> — para distribuição de carga</li>
+    <li><strong>Porcas</strong> — porcas correspondentes ao diâmetro do varão</li>
+  </ul>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+    <figure style="flex:1 1 220px; margin:0;">
+      <a href="{{ url_for('static', filename='images/calhas_metalicas.jpg') }}" target="_blank" rel="noopener">
+        <img src="{{ url_for('static', filename='images/calhas_metalicas.jpg') }}"
+             alt="Calhas metálicas"
+             style="width:100%; height:auto; border-radius:8px; display:block; box-shadow:0 6px 18px rgba(0,0,0,0.12);"
+             loading="lazy">
+      </a>
+      <figcaption style="font-size:13px; color:#555; margin-top:6px;">Exemplo de calhas metálicas incluídas</figcaption>
+    </figure>
+
+    <figure style="flex:1 1 220px; margin:0;">
+      <a href="{{ url_for('static', filename='images/kit_fixacao.jpg') }}" target="_blank" rel="noopener">
+        <img src="{{ url_for('static', filename='images/kit_fixacao.jpg') }}"
+             alt="Buchas, varão, anilhas e porcas"
+             style="width:100%; height:auto; border-radius:8px; display:block; box-shadow:0 6px 18px rgba(0,0,0,0.12);"
+             loading="lazy">
+      </a>
+      <figcaption style="font-size:13px; color:#555; margin-top:6px;">Buchas metálicas, varão roscado, anilhas e porcas</figcaption>
+    </figure>
+  </div>
+
+  <div style="margin-top:12px;" class="muted">Observações:</div>
+  <ul style="margin:6px 0 0 18px; color: #2b2b2b;">
+    <li>Comprimentos, diâmetros e quantidades padrão estão indicados de forma genérica; informe medidas concretas (ex.: comprimento das calhas, diâmetro do varão) para personalização ou orçamento.</li>
+    <li>Material (ex.: aço galvanizado, inox) e acabamento podem variar — informe preferência se houver.</li>
+    <li>Serviços adicionais (cortes, pintura, montagem no local) são cobrados à parte.</li>
+    <li>Se desejar, podemos enviar ficha técnica ou um orçamento detalhado conforme especificações.</li>
+  </ul>
+
+  <div style="margin-top:12px; display:flex; gap:8px;">
+    <button class="btn ghost" onclick="closeDetailsModal()">Fechar</button>
+    <button class="btn" style="margin-left:auto;" onclick="addToBasket('5', this)">Adicionar Kit Montagem</button>
+  </div>
+</div>

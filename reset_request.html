@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Recuperar Senha</title>
+    <style>
+        body{font-family:Arial, sans-serif;background:#f4f4f4;padding:30px}
+        .box{max-width:420px;margin:0 auto;background:#fff;padding:20px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+        input,button{width:100%;padding:10px;margin-top:8px;border-radius:4px;border:1px solid #ccc;box-sizing:border-box}
+        .btn{background:#28a745;color:#fff;border:none}
+        .link{margin-top:12px;text-align:center}
+        .alert{padding:10px;margin-top:12px;border-radius:4px}
+        .alert-danger{background:#ffecec;color:#b30000}
+        .alert-success{background:#e6ffed;color:#044d17}
+    </style>
+</head>
+<body>
+<div class="box">
+    <h2>Recuperar Senha</h2>
+    <p>Insira o email associado à sua conta. Enviaremos um link para redefinir a senha.</p>
+
+    <form method="POST" action="{{ url_for('auth.reset_request') }}">
+        {{ form.hidden_tag() }}
+        <label for="email">{{ form.email.label }}</label>
+        {{ form.email(id="email") }}
+
+        <button type="submit" class="btn">Enviar email de recuperação</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+    <div class="alert {{ 'alert-success' if category=='success' else 'alert-danger' }}">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="link"><a href="{{ url_for('auth.login') }}">Voltar ao Login</a></div>
+</div>
+</body>
+</html>

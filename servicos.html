@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Produtos e Serviços - HVACSolution81</title>
+    <style>
+        :root {
+            --accent: #FF4500;
+            --bg: #eef6ff;
+            --card: #ffffff;
+            --muted: #666;
+            --table-odd: rgba(150, 212, 212, 0.4);
+        }
+
+        body {
+            font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+            color: #222;
+            line-height: 1.4;
+        }
+
+        .cabecalho {
+            background-color: var(--accent);
+            color: #fff;
+            padding: 20px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:12px;
+        }
+
+        .cabecalho img.logo {
+            height:44px;
+            width:auto;
+            display:block;
+        }
+
+        .cabecalho h1 {
+            margin: 0;
+            font-size: 28px;
+            line-height:1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 16px;
+        }
+
+        .produto {
+            background-color: var(--card);
+            margin: 20px 0;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .produto h2,
+        .produto h3 {
+            margin-top: 0;
+            color: var(--accent);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+        }
+
+        th,
+        td {
+            padding: 10px 8px;
+            border: 1px solid #e6eef6;
+            text-align: left;
+            vertical-align: middle;
+        }
+
+        tr:nth-child(even) td {
+            background-color: var(--table-odd);
+        }
+
+        .services-list {
+            list-style: none;
+            padding-left: 0;
+            margin: 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+        }
+
+        .service-item {
+            background-color: #fafafa;
+            border: 1px solid #f0f0f0;
+            padding: 12px;
+            border-radius: 6px;
+        }
+
+        .service-item h4 {
+            margin: 0 0 6px 0;
+            color: #333;
+        }
+
+        .cta {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .btn {
+            background-color: var(--accent);
+            border: none;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn.secondary {
+            background-color: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        textarea {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #dfeaf4;
+            margin-right: 8px;
+            margin-bottom: 8px;
+            width: 220px;
+            box-sizing: border-box;
+        }
+
+        textarea { width:100%; max-width: 100%; resize: vertical; }
+
+        /* Responsive tweaks */
+        @media (max-width: 700px) {
+            th,
+            td {
+                padding: 8px 6px;
+                font-size: 0.95rem;
+            }
+            .cabecalho { flex-direction: column; gap:8px; padding:16px; }
+            .cabecalho img.logo { height:40px; }
+            input[type="text"], input[type="tel"], input[type="email"] { width:100%; margin-right:0; }
+        }
+    </style>
+</head>
+<body>
+    <header class="cabecalho">
+        <img class="logo" src="{{ url_for('static', filename='images/TJRArcondicionado.png') }}" alt="TJR - Ar Condicionado">
+        <div>
+            <h1>Produtos e Serviços</h1>
+            <div style="font-size:0.95rem; opacity:0.95;">Soluções de Ar Condicionado & Refrigeração — venda, instalação e manutenção.</div>
+            <!-- Contacto removido da vista do utilizador: telefone e email não são visíveis -->
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="produto" aria-labelledby="comercializamos">
+            <h2 id="comercializamos">Comercializamos</h2>
+            <p class="muted">Soluções de Ar Condicionado & Refrigeração — venda, instalação e manutenção.</p>
+
+            <h3>Produtos e preços (exemplos)</h3>
+            <table aria-label="Tabela de produtos e preços">
+                <thead>
+                    <tr>
+                        <th>Serviço / Produto</th>
+                        <th>Preço (indicativo)</th>
+                        <th>Observações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Preço hora (Técnico)</td>
+                        <td>14,50 €</td>
+                        <td>Deslocação não incluída</td>
+                    </tr>
+                    <tr>
+                        <td>Serviços de Reparação</td>
+                        <td>60,00 €</td>
+                        <td>Valor base (peças à parte)</td>
+                    </tr>
+                    <tr>
+                        <td>Assistência Técnica</td>
+                        <td>90,00 €</td>
+                        <td>Intervenção especializada</td>
+                    </tr>
+                    <tr>
+                        <td>Orçamentos</td>
+                        <td>Gratuito</td>
+                        <td>Sem compromisso</td>
+                    </tr>
+                    <tr>
+                        <td>Peças + Mão de Obra</td>
+                        <td>Valor a orçar</td>
+                        <td>Depende do equipamento</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3>Serviços que prestamos</h3>
+            <ul class="services-list">
+                <li class="service-item">
+                    <h4>Instalação de Sistemas de Ar Condicionado</h4>
+                    <p class="muted">Montagem de unidades interiores e exteriores, ligação de tubagens e evacuação.</p>
+                </li>
+                <li class="service-item">
+                    <h4>Manutenção Preventiva</h4>
+                    <p class="muted">Limpeza, verificação de circuitos e prevenção de avarias — contratos disponíveis.</p>
+                </li>
+                <li class="service-item">
+                    <h4>Reparação e Diagnóstico</h4>
+                    <p class="muted">Identificação de avarias, substituição de componentes e testes finais.</p>
+                </li>
+                <li class="service-item">
+                    <h4>Refrigeração Comercial</h4>
+                    <p class="muted">Instalação e manutenção de câmaras frigoríficas, vitrines e frigoríficos comerciais.</p>
+                </li>
+                <li class="service-item">
+                    <h4>Venda de Equipamentos e Peças</h4>
+                    <p class="muted">Murais, chão-teto, conduta, verticais, compressores e peças de reposição.</p>
+                </li>
+                <li class="service-item">
+                    <h4>Ventiladores Industriais</h4>
+                    <p class="muted">Fornecimento e instalação para ventilação e renovação de ar em espaços industriais.</p>
+                </li>
+                <li class="service-item">
+                    <h4>Dimensionamento e Projeto</h4>
+                    <p class="muted">Cálculo de cargas térmicas, recomendação de equipamentos e layout de instalação.</p>
+                </li>
+                <li class="service-item">
+                    <h4>Contratos de Manutenção</h4>
+                    <p class="muted">Planos personalizados com visitas periódicas e prioridade de intervenção.</p>
+                </li>
+                <li class="service-item">
+                    <h4>Pós-venda</h4>
+                    <p class="muted">Garantia, assistência técnica e suporte contínuo para assegurar conforto e qualidade.</p>
+                </li>
+            </ul>
+
+            <div class="cta">
+                <!-- Formulário para pedir orçamento; envia para o endpoint /api/quote_request (se existir)
+                     e em seguida redirecciona para /contactos. Se o servidor não estiver configurado,
+                     abre WhatsApp com mensagem pré-preenchida e depois redirecciona para /contactos. -->
+                <form id="quote-form" onsubmit="event.preventDefault(); submitQuote();" style="flex:1;">
+                  <div style="display:flex; flex-wrap:wrap; gap:8px; align-items:center;">
+                    <input id="q-nome" name="nome" type="text" placeholder="Nome" required>
+                    <input id="q-telefone" name="telefone" type="tel" placeholder="Telefone" required>
+                    <input id="q-email" name="email" type="email" placeholder="Email (opcional)">
+                    <input id="q-assunto" name="assunto" type="text" placeholder="Serviço/Assunto" required>
+                  </div>
+                  <div style="margin-top:8px;">
+                    <textarea id="q-mensagem" name="mensagem" placeholder="Detalhes adicionais" rows="3"></textarea>
+                  </div>
+                  <div style="margin-top:8px;">
+                    <button class="btn" type="submit">Pedir Orçamento (Enviar)</button>
+                    <button class="btn secondary" type="button" onclick="fallbackToWhatsApp()">Pedir via WhatsApp</button>
+                  </div>
+                  <div id="quote-feedback" style="margin-top:8px;color:#0a0;"></div>
+                </form>
+            </div>
+        </section>
+
+        <section class="produto" aria-labelledby="marcas-modelos">
+            <h2 id="marcas-modelos">Marcas e Modelos</h2>
+            <p class="muted">Alguns exemplos de modelos e capacidades (consultar ficha técnica antes de adquirir).</p>
+
+            <table aria-label="Tabela de modelos">
+                <thead>
+                    <tr>
+                        <th>Tipo</th>
+                        <th>Marca</th>
+                        <th>Potência Elétrica</th>
+                        <th>Capacidade Térmica</th>
+                        <th>Observações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Murais</td>
+                        <td>Samsung</td>
+                        <td>3,0 kW</td>
+                        <td>9000 BTU</td>
+                        <td>Modelo residencial</td>
+                    </tr>
+                    <tr>
+                        <td>Murais</td>
+                        <td>Samsung</td>
+                        <td>5,5 kW</td>
+                        <td>15000 BTU</td>
+                        <td>Para salas maiores</td>
+                    </tr>
+                    <tr>
+                        <td>Murais</td>
+                        <td>Samsung</td>
+                        <td>7,0 kW</td>
+                        <td>18000 BTU</td>
+                        <td>Uso intensivo</td>
+                    </tr>
+                    <tr>
+                        <td>Chão-Teto</td>
+                        <td>LG</td>
+                        <td>—</td>
+                        <td>Consultar</td>
+                        <td>Unidade para espaços comerciais</td>
+                    </tr>
+                    <tr>
+                        <td>Verticais</td>
+                        <td>Toyotomi</td>
+                        <td>—</td>
+                        <td>Consultar</td>
+                        <td>Modelos industriais</td>
+                    </tr>
+                    <tr>
+                        <td>Conduta</td>
+                        <td>AirAiwell</td>
+                        <td>—</td>
+                        <td>Consultar</td>
+                        <td>Sistemas de conduta para edifícios</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="produto" aria-labelledby="ventiladores">
+            <h2 id="ventiladores">Ventiladores Industriais</h2>
+            <p class="muted">Fornecemos, instalamos e fazemos a manutenção de ventiladores industriais para diversas necessidades: exaustão, circulação e renovação de ar.</p>
+            <ul>
+                <li>Dimensionamento e seleção de ventiladores</li>
+                <li>Montagem e balanceamento</li>
+                <li>Contratos de manutenção e monitorização</li>
+            </ul>
+        </section>
+
+        <section class="produto" aria-labelledby="lista-produtos">
+            <h2 id="lista-produtos">Catálogo (dinâmico)</h2>
+            <p class="muted">Lista de produtos extraída do sistema:</p>
+            <ul>
+                {% for p in produtos %}
+                    <li>{{ p.nome }} - {{ p.categoria }} - €{{ p.preco }}</li>
+                {% else %}
+                    <li>Nenhum produto disponível no momento.</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+
+    <script>
+    // Contact constants (kept only in JS; not visible in the UI)
+    const CONTACT_PHONE_E164 = '351969362576'; // WhatsApp destination without the + sign
+    const CONTACT_EMAIL = 'hvacsolution81@gmail.com';
+
+    async function submitQuote() {
+      const payload = {
+        nome: document.getElementById('q-nome').value,
+        telefone: document.getElementById('q-telefone').value,
+        email: document.getElementById('q-email').value,
+        assunto: document.getElementById('q-assunto').value,
+        mensagem: document.getElementById('q-mensagem').value
+      };
+      const feedbackEl = document.getElementById('quote-feedback');
+      feedbackEl.style.color = '#000';
+      feedbackEl.textContent = 'A enviar...';
+      try {
+        const res = await fetch('/api/quote_request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json().catch(()=>({}));
+        if (res.ok && data.success) {
+          feedbackEl.style.color = '#0a0';
+          feedbackEl.textContent = 'Pedido enviado com sucesso. A redireccionar para Contactos...';
+          document.getElementById('quote-form').reset();
+          setTimeout(function(){
+            window.location.href = '{{ url_for("paginas.contactos") }}';
+          }, 1200);
+        } else {
+          feedbackEl.style.color = '#c0392b';
+          feedbackEl.textContent = (data && data.message) ? data.message : 'Erro ao enviar. A abrir WhatsApp para enviar manualmente...';
+          setTimeout(fallbackToWhatsApp, 1200);
+        }
+      } catch (err) {
+        feedbackEl.style.color = '#c0392b';
+        feedbackEl.textContent = 'Erro de ligação. A abrir WhatsApp...';
+        setTimeout(fallbackToWhatsApp, 800);
+      }
+    }
+
+    function fallbackToWhatsApp() {
+      const nome = encodeURIComponent(document.getElementById('q-nome').value || '');
+      const tel = encodeURIComponent(document.getElementById('q-telefone').value || '');
+      // Se o utilizador não fornecer email, utiliza o email de contacto configurado (mantido no JS)
+      const email = encodeURIComponent(document.getElementById('q-email').value || CONTACT_EMAIL);
+      const assunto = encodeURIComponent(document.getElementById('q-assunto').value || '');
+      const mensagem = encodeURIComponent(document.getElementById('q-mensagem').value || '');
+      const text = `Pedido de Orçamento\nNome: ${decodeURIComponent(nome)}\nTelefone: ${decodeURIComponent(tel)}\nEmail: ${decodeURIComponent(email)}\nAssunto: ${decodeURIComponent(assunto)}\nMensagem: ${decodeURIComponent(mensagem)}`;
+      const dest = CONTACT_PHONE_E164;
+      const waUrl = `https://wa.me/${dest}?text=${encodeURIComponent(text)}`;
+      window.open(waUrl, '_blank');
+      setTimeout(function(){
+        window.location.href = '{{ url_for("paginas.contactos") }}';
+      }, 1000);
+    }
+    </script>
+</body>
+</html>
