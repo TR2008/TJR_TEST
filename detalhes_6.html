@@ -1,0 +1,56 @@
+<div style="padding:12px; max-width:720px; box-sizing:border-box;">
+  <!-- Banner / logo no topo -->
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+    <img src="{{ url_for('static', filename='images/TJRArcondicionado.png') }}"
+         alt="TJR - Ar Condicionado"
+         style="height:48px; width:auto; display:block;">
+    <h3 style="margin:0;font-size:1.05rem;">3× Kit Tubos — Multicamada até 10m + Frigoríficos até 10m + Acessórios de Carga e Drenagem</h3>
+  </div>
+
+  <div class="muted" style="margin-bottom:8px;">Pacote triplo com tubagem multicamada e frigorífica (até 10 m cada unidade), acessórios de carga, drenagem de condensados e cabos eléctricos (mesmo padrão dos kits anteriores).</div>
+
+  <ul style="margin:8px 0 12px 18px; color: #2b2b2b;">
+    <li><strong>3 × Tubos multicamada</strong> — até 10 m cada (especificar diâmetros: ex.: Ø16/20/25 mm)</li>
+    <li><strong>3 × Tubos frigoríficos</strong> — até 10 m cada (ex.: cobre ou pré-isolado; indicar diâmetros)</li>
+    <li><strong>Acessórios de carga</strong> — válvulas de serviço, manifolds, adaptadores e conectores para carregamento do circuito frigorífico</li>
+    <li><strong>Acessórios de drenagem de condensados</strong> — tubos de drenagem, sifões, conexões e, se necessário, bomba de condensado</li>
+    <li><strong>Isolamento térmico</strong> — espuma/elastómero para tubagem frigorífica e multicamada</li>
+    <li><strong>Cabos eléctricos</strong> — H05VV-F 3G 1,5 mm² e H05VV-F 5G 1,5 mm² (preto) — quantidade equivalente a 3 kits</li>
+    <li><strong>Fixadores e ferragens</strong> — braçadeiras, abraçadeiras, calhas, buchas, porcas, anilhas e varão roscado conforme necessário</li>
+  </ul>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+    <figure style="flex:1 1 220px; margin:0;">
+      <a href="{{ url_for('static', filename='images/tubos_multicamada.jpg') }}" target="_blank" rel="noopener">
+        <img src="{{ url_for('static', filename='images/tubos_multicamada.jpg') }}"
+             alt="Tubos multicamada"
+             style="width:100%; height:auto; border-radius:8px; display:block; box-shadow:0 6px 18px rgba(0,0,0,0.12);"
+             loading="lazy">
+      </a>
+      <figcaption style="font-size:13px; color:#555; margin-top:6px;">Tubos multicamada — exemplo</figcaption>
+    </figure>
+
+    <figure style="flex:1 1 220px; margin:0;">
+      <a href="{{ url_for('static', filename='images/tubos_frigorificos.jpg') }}" target="_blank" rel="noopener">
+        <img src="{{ url_for('static', filename='images/tubos_frigorificos.jpg') }}"
+             alt="Tubos frigoríficos"
+             style="width:100%; height:auto; border-radius:8px; display:block; box-shadow:0 6px 18px rgba(0,0,0,0.12);"
+             loading="lazy">
+      </a>
+      <figcaption style="font-size:13px; color:#555; margin-top:6px;">Tubos frigoríficos — exemplo</figcaption>
+    </figure>
+  </div>
+
+  <div style="margin-top:12px;" class="muted">Observações:</div>
+  <ul style="margin:6px 0 0 18px; color: #2b2b2b;">
+    <li>Indique os diâmetros e número de unidades por diâmetro (ex.: 3 × Ø16 — 10 m cada) para cotação precisa.</li>
+    <li>Confirme tipo de tubo frigorífico (cobre nu, pré-isolado) e se multicamada necessita de barreira anti-difusão.</li>
+    <li>Especifique se inclui bomba de condensado ou apenas sifões e tubos de drenagem.</li>
+    <li>Serviços adicionais (corte, união, carga de gás, comissionamento, transporte e montagem) são orçados à parte.</li>
+  </ul>
+
+  <div style="margin-top:12px; display:flex; gap:8px;">
+    <button class="btn ghost" onclick="closeDetailsModal()">Fechar</button>
+    <button class="btn" style="margin-left:auto;" onclick="addToBasket('7', this)">Adicionar 3× Kit Tubos</button>
+  </div>
+</div>

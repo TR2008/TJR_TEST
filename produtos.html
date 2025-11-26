@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Serviços - HVACSolution81</title>
+
+    <!-- Fonte externa -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root{
+            --primary:#FF4500;
+            --dark:#0b2545;
+            --glass: rgba(255,255,255,0.65);
+            --accent: #00aaff;
+            --success:#28a745;
+            --card-radius:14px;
+            --shadow: 0 8px 24px rgba(11,37,69,0.12);
+
+            /* Amarela torrado para pacotes */
+            --package-yellow: #d99a3f;
+            --package-yellow-2: #e6b24a;
+            --package-yellow-dark: #b37324;
+            --package-text: #2b2b2b;
+        }
+
+        html,body{
+            height:100%;
+            margin:0;
+            font-family: 'Poppins', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            /* uso de url_for para gerar caminho correcto para a imagem de fundo */
+            background: linear-gradient(180deg, rgba(255,255,255,0.72), rgba(255,255,255,0.72)), url('{{ url_for('static', filename='images/TJRArcondicionado.png') }}') center/cover no-repeat fixed;
+            color:var(--dark);
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+        }
+
+        /* Top header */
+        .cabecalho{
+            background: linear-gradient(90deg, rgba(255,69,0,1), rgba(255,140,40,0.95));
+            color: #fff;
+            padding: 28px 20px;
+            text-align:center;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+        .cabecalho h1{
+            margin:0;
+            font-size: clamp(20px, 3.2vw, 34px);
+            letter-spacing: 0.6px;
+            font-weight:700;
+            text-transform:uppercase;
+        }
+        .subtitle{
+            margin-top:6px;
+            font-weight:400;
+            opacity:0.95;
+            font-size:14px;
+        }
+
+        /* Layout */
+        .container{
+            max-width:1200px;
+            margin: 28px auto;
+            padding: 18px;
+            display:grid;
+            grid-template-columns: 1fr 340px;
+            gap: 24px;
+        }
+
+        /* Product grid area */
+        .produtos-grid{
+            display:grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap:18px;
+        }
+
+        /* Product card com amarelo torrado */
+        .product-card{
+            background: linear-gradient(180deg, rgba(217,153,63,0.95), rgba(230,178,74,0.90));
+            border-radius: var(--card-radius);
+            padding:16px;
+            box-shadow: 0 10px 30px rgba(11,37,69,0.12);
+            transition: transform .22s ease, box-shadow .22s ease;
+            display:flex;
+            flex-direction:column;
+            gap:10px;
+            align-items:flex-start;
+            color: var(--package-text);
+            border: 1px solid rgba(0,0,0,0.04);
+            min-height:150px;
+        }
+        .product-card:hover{
+            transform: translateY(-6px);
+            box-shadow: 0 20px 50px rgba(11,37,69,0.18);
+        }
+        .product-card h3{
+            margin:0;
+            color: var(--package-text);
+            font-size:16px;
+        }
+        .muted{ color: rgba(11,37,69,0.6); font-size:13px; }
+        .price{
+            font-weight:700;
+            color: var(--package-yellow-dark);
+            font-size:16px;
+        }
+        .product-actions{
+            margin-top:auto;
+            width:100%;
+            display:flex;
+            gap:8px;
+        }
+        .btn{
+            border:0;
+            border-radius:10px;
+            padding:10px 12px;
+            cursor:pointer;
+            font-weight:600;
+            color:white;
+            background:var(--primary);
+            transition:opacity .15s ease, transform .12s ease;
+        }
+        .btn:active{ transform: translateY(1px); }
+        .btn.secondary{
+            background: linear-gradient(90deg,#005f9e,#0088cc);
+        }
+        .btn.ghost{
+            background:transparent;
+            border:1px solid rgba(11,37,69,0.08);
+            color:var(--dark);
+        }
+
+        /* Basket / sidebar */
+        .basket{
+            position:relative;
+            background: linear-gradient(180deg, rgba(255,255,255,0.95), rgba(255,255,255,0.9));
+            border-radius:12px;
+            padding:16px;
+            box-shadow: var(--shadow);
+            height:fit-content;
+        }
+        .basket h4{ margin:0 0 8px 0; font-size:16px; color:var(--dark); }
+        #item-list{ list-style:none; padding:0; margin:0 0 12px 0; max-height:360px; overflow:auto; }
+
+        /* <-- Alteração: fundo dos itens do cesto para amarelo mais forte e contraste melhor --> */
+        #item-list li{
+            display:flex; justify-content:space-between; align-items:center;
+            padding:10px; border-radius:8px; margin-bottom:8px;
+            background: linear-gradient(180deg, var(--package-yellow-2), var(--package-yellow));
+            border: 1px solid var(--package-yellow-dark);
+            color: var(--package-text);
+            box-shadow: 0 6px 18px rgba(183,115,36,0.08);
+        }
+        #item-list li strong{ color:var(--package-text); }
+        /* fim alteração */
+
+        .basket-summary{ display:flex; justify-content:space-between; align-items:center; margin-top:8px; font-weight:700; }
+        .basket-actions{ display:flex; gap:8px; margin-top:12px; }
+
+        /* Modal */
+        .modal-backdrop{
+            position:fixed; inset:0; display:none; place-items:center; background: rgba(8,16,30,0.55); z-index:1200;
+        }
+        .modal{
+            background:white; padding:18px; border-radius:12px; max-width:720px; width:94%; box-shadow:0 30px 80px rgba(2,6,23,0.6);
+            max-height:90vh; overflow:auto;
+        }
+        .modal h3{ margin:0 0 8px 0; display:flex; justify-content:space-between; align-items:center; gap:12px; }
+        .modal .modal-body{ max-height:70vh; overflow:auto; margin-top:12px; }
+        .modal .modal-footer{ display:flex; justify-content:space-between; gap:8px; margin-top:16px; }
+
+        /* Success banner */
+        .success-banner{
+            display:none;
+            background: linear-gradient(90deg, rgba(40,167,69,0.95), rgba(72,187,120,0.95));
+            color:white;
+            padding:12px 16px;
+            border-radius:10px;
+            margin-top:12px;
+            text-align:center;
+            box-shadow: 0 10px 30px rgba(40,167,69,0.12);
+        }
+
+        /* Responsive */
+        @media (max-width:980px){
+            .container{ grid-template-columns: 1fr; padding:14px; }
+            .basket{ order: -1; margin-bottom:16px; }
+        }
+
+        .count-badge{ background:var(--accent); color:#fff; padding:6px 10px; border-radius:999px; font-weight:700; font-size:13px; }
+        .mb-reference{ background:#fff8e6; border:1px dashed #ffd27a; padding:12px; border-radius:8px; margin-top:10px; }
+
+        /* small focus style for accessibility */
+        .focus-outline:focus { outline: 3px solid rgba(0,136,204,0.18); outline-offset:3px; }
+    </style>
+</head>
+<body>
+<div class="cabecalho">
+    <h1>Instalação · Assistência · Reparação — Pacotes</h1>
+    <div class="subtitle">Serviços HVAC profissionais — escolha um pacote e finalize a sua encomenda facilmente.</div>
+</div>
+
+<main class="container">
+    <!-- Grelha de produtos -->
+    <div class="produtos-grid" aria-live="polite">
+        <!-- Renderização dinâmica via Jinja -->
+        {% for produto in produtos %}
+        <div class="product-card" data-id="{{ produto.id }}" data-price="{{ produto.preco }}">
+            <h3>{{ produto.nome }}</h3>
+            <div class="muted">Descrição breve do serviço (personalize no backend)</div>
+            <div class="price">{{ produto.preco }} €</div>
+            <div class="product-actions">
+                <button class="btn focus-outline" onclick="addToBasket('{{ produto.id }}', this)">Adicionar ao Cesto</button>
+                <form action="{{ url_for('adicionar_ao_carrinho') }}" method="POST" style="margin-left:auto;">
+                    <input type="hidden" name="produto_id" value="{{ produto.id }}">
+                    <button type="submit" class="btn secondary">Comprar (Form)</button>
+                </form>
+                <!-- Detalhes: usar a rota /detalhes/<id> definida no blueprint paginas -->
+                <button class="btn ghost focus-outline" onclick="openProductDetails('{{ url_for('paginas.detalhes', id=produto.id) }}')">Detalhes</button>
+            </div>
+        </div>
+        {% endfor %}
+
+        <!-- Exemplos estáticos / fallback (apenas para demonstração) -->
+        <div class="product-card" data-id="1" data-price="150.00">
+            <h3>Instalação Simples</h3>
+            <div class="muted">Ideal para 1 divisão</div>
+            <div class="price">150.00 €</div>
+            <div class="product-actions">
+                <button class="btn focus-outline" onclick="addToBasket('1', this)">Adicionar ao Cesto</button>
+                <button class="btn ghost focus-outline" onclick="openProductDetails('{{ url_for('paginas.detalhes', id=1) }}')">Detalhes</button>
+            </div>
+        </div>
+
+        <div class="product-card" data-id="2" data-price="200.00">
+            <h3>Instalação Normal</h3>
+            <div class="muted">Para instalação habitual</div>
+            <div class="price">200.00 €</div>
+            <div class="product-actions">
+                <button class="btn" onclick="addToBasket('2', this)">Adicionar ao Cesto</button>
+                <button class="btn ghost" onclick="openProductDetails('{{ url_for('paginas.detalhes', id=2) }}')">Detalhes</button>
+            </div>
+        </div>
+
+        <div class="product-card" data-id="3" data-price="350.00">
+            <h3>Instalação Multi II</h3>
+            <div class="muted">Várias unidades - pacote II</div>
+            <div class="price">350.00 €</div>
+            <div class="product-actions">
+                <button class="btn" onclick="addToBasket('3', this)">Adicionar ao Cesto</button>
+                <button class="btn ghost" onclick="openProductDetails('{{ url_for('paginas.detalhes', id=3) }}')">Detalhes</button>
+            </div>
+        </div>
+
+        <div class="product-card" data-id="4" data-price="550.00">
+            <h3>Instalação Multi III</h3>
+            <div class="muted">Pacote completo - Multi III</div>
+            <div class="price">550.00 €</div>
+            <div class="product-actions">
+                <button class="btn" onclick="addToBasket('4', this)">Adicionar ao Cesto</button>
+                <button class="btn ghost" onclick="openProductDetails('{{ url_for('paginas.detalhes', id=4) }}')">Detalhes</button>
+            </div>
+        </div>
+
+        <div class="product-card" data-id="5" data-price="300.00">
+            <h3>Montagem Ventiladores de Caixa e Axiais</h3>
+            <div class="muted">Instalação e montagem de ventiladores de caixa e axiais</div>
+            <div class="price">300.00 €</div>
+            <div class="product-actions">
+                <button class="btn" onclick="addToBasket('5', this)">Adicionar ao Cesto</button>
+                <button class="btn ghost" onclick="openProductDetails('{{ url_for('paginas.detalhes', id=5) }}')">Detalhes</button>
+            </div>
+        </div>
+
+        <div class="product-card" data-id="6" data-price="500.00">
+            <h3>Bombas de Calor</h3>
+            <div class="muted">Fornecimento e instalação de bombas de calor</div>
+            <div class="price">500.00 €</div>
+            <div class="product-actions">
+                <button class="btn" onclick="addToBasket('6', this)">Adicionar ao Cesto</button>
+                <button class="btn ghost" onclick="openProductDetails('{{ url_for('paginas.detalhes', id=6) }}')">Detalhes</button>
+            </div>
+        </div>
+
+        <div class="product-card" data-id="7" data-price="550.00">
+            <h3>Pacote Economicy</h3>
+            <div class="muted">Instalação Simples + Conjunto de Máquinas Económicas</div>
+            <div class="price">550.00 €</div>
+            <div class="product-actions">
+                <button class="btn" onclick="addToBasket('7', this)">Adicionar ao Cesto</button>
+                <button class="btn ghost" onclick="openProductDetails('{{ url_for('paginas.detalhes', id=7) }}')">Detalhes</button>
+            </div>
+        </div>
+
+        <div class="product-card" data-id="8" data-price="650.00">
+            <h3>Pacote Mediumm</h3>
+            <div class="muted">Instalação Simples + Conjunto de Máquinas Gama Intermédia</div>
+            <div class="price">650.00 €</div>
+            <div class="product-actions">
+                <button class="btn" onclick="addToBasket('8', this)">Adicionar ao Cesto</button>
+                <button class="btn ghost" onclick="openProductDetails('{{ url_for('paginas.detalhes', id=8) }}')">Detalhes</button>
+            </div>
+        </div>
+
+        <div class="product-card" data-id="9" data-price="850.00">
+            <h3>Pacote High</h3>
+            <div class="muted">Instalação Simples + Conjunto de Máquinas Gama Alta Performance</div>
+            <div class="price">850.00 €</div>
+            <div class="product-actions">
+                <button class="btn" onclick="addToBasket('9', this)">Adicionar ao Cesto</button>
+                <button class="btn ghost" onclick="openProductDetails('{{ url_for('paginas.detalhes', id=9) }}')">Detalhes</button>
+            </div>
+        </div>
+
+        <div class="product-card" data-id="10" data-price="90.00">
+            <h3>Pacote Assistencia + Deslocação</h3>
+            <div class="muted">Asistencia Tecnica </div>
+            <div class="price">90.00 €</div>
+            <div class="product-actions">
+                <button class="btn" onclick="addToBasket('10', this)">Adicionar ao Cesto</button>
+                <button class="btn ghost" onclick="openProductDetails('{{ url_for('paginas.detalhes', id=10) }}')">Detalhes</button>
+            </div>
+        </div>
+
+        <div class="product-card" data-id="11" data-price="0.00">
+            <h3>Orçamentos</h3>
+            <div class="muted">Gratis </div>
+            <div class="price">0.00 €</div>
+            <div class="product-actions">
+                <button class="btn" onclick="addToBasket('11', this)">Adicionar ao Cesto</button>
+                <button class="btn ghost" onclick="openProductDetails('{{ url_for('paginas.detalhes', id=11) }}')">Detalhes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sidebar / Cesto -->
+    <aside class="basket" aria-labelledby="basket-title">
+        <h4 id="basket-title">O seu Cesto <span style="float:right;" class="count-badge" id="basket-count">0</span></h4>
+        <div class="muted">Resumo dos itens selecionados</div>
+
+        <ul id="item-list" aria-live="polite"></ul>
+
+        <div class="basket-summary">
+            <div>Total</div>
+            <div id="basket-total">0.00 €</div>
+        </div>
+
+        <div class="basket-actions">
+            <button class="btn secondary" id="checkout-btn" onclick="openCheckoutModal()">Finalizar Compra</button>
+            <button class="btn ghost" onclick="clearBasket()">Limpar</button>
+        </div>
+
+        <div class="success-banner" id="success-banner">Compra finalizada com sucesso! Obrigado. A sua encomenda está a ser processada.</div>
+    </aside>
+</main>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal" role="document" aria-labelledby="modal-title" tabindex="-1">
+        <h3 id="modal-title">Confirmar Finalização da Compra</h3>
+        <div class="muted">Revise os itens abaixo, preencha os seus dados e escolha a forma de pagamento.</div>
+
+        <div class="modal-body" id="modal-body">
+            <!-- Conteúdo do checkout padrão (guardado ao iniciar) -->
+            <form id="checkout-form" onsubmit="event.preventDefault(); confirmCheckout();" autocomplete="on">
+                <div style="margin:8px 0 12px 0;">
+                    <ul id="modal-item-list" style="list-style:none;padding:0;margin:0 0 8px 0;"></ul>
+                    <div style="display:flex;justify-content:space-between;padding-top:10px;border-top:1px dashed #eee;">
+                        <div class="muted">Total estimado</div>
+                        <div id="modal-total" style="font-weight:800;color:var(--primary)">0.00 €</div>
+                    </div>
+                </div>
+
+                <div style="margin-top:12px;">
+                    <h4 style="margin:6px 0;">Dados do Cliente</h4>
+
+                    <div class="form-row" style="display:flex;gap:10px;margin-bottom:10px;">
+                        <div class="field" style="flex:0 0 120px;display:flex;flex-direction:column;">
+                            <label for="titulo">Título</label>
+                            <select id="titulo" name="titulo">
+                                <option value="Sr">Sr</option>
+                                <option value="Sra">Sra</option>
+                            </select>
+                        </div>
+                        <div class="field" style="flex:1;display:flex;flex-direction:column;">
+                            <label for="nome">Nome <span style="color:#c0392b;margin-left:4px;font-weight:700;">*</span></label>
+                            <input id="nome" name="nome" type="text" placeholder="Nome completo" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row" style="display:flex;gap:10px;margin-bottom:10px;">
+                        <div class="field" style="flex:1;display:flex;flex-direction:column;">
+                            <label for="morada">Morada <span style="color:#c0392b;margin-left:4px;font-weight:700;">*</span></label>
+                            <input id="morada" name="morada" type="text" placeholder="Rua, Número, Apartamento..." required>
+                        </div>
+                    </div>
+
+                    <div class="form-row" style="display:flex;gap:10px;margin-bottom:10px;">
+                        <div class="field" style="flex:0 0 160px;display:flex;flex-direction:column;">
+                            <label for="codigo_postal">Código Postal <span style="color:#c0392b;margin-left:4px;font-weight:700;">*</span></label>
+                            <input id="codigo_postal" name="codigo_postal" type="text" placeholder="1234-567" required>
+                        </div>
+                        <div class="field" style="flex:1;display:flex;flex-direction:column;">
+                            <label for="localidade">Localidade <span style="color:#c0392b;margin-left:4px;font-weight:700;">*</span></label>
+                            <input id="localidade" name="localidade" type="text" placeholder="Localidade" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row" style="display:flex;gap:10px;margin-bottom:10px;">
+                        <div class="field" style="flex:1;display:flex;flex-direction:column;">
+                            <label for="concelho">Concelho</label>
+                            <input id="concelho" name="concelho" type="text" placeholder="Concelho / Município">
+                        </div>
+                        <div class="field" style="flex:0 0 160px;display:flex;flex-direction:column;">
+                            <label for="nif">NIF <span style="color:#c0392b;margin-left:4px;font-weight:700;">*</span></label>
+                            <input id="nif" name="nif" type="text" placeholder="Número de identificação fiscal" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row" style="display:flex;gap:10px;margin-bottom:10px;">
+                        <div class="field" style="flex:1;display:flex;flex-direction:column;">
+                            <label for="email">Email <span style="color:#c0392b;margin-left:4px;font-weight:700;">*</span></label>
+                            <input id="email" name="email" type="email" placeholder="seu@exemplo.com" required>
+                        </div>
+                        <div class="field" style="flex:0 0 140px;display:flex;flex-direction:column;">
+                            <label for="telefone">Telefone <span style="color:#c0392b;margin-left:4px;font-weight:700;">*</span></label>
+                            <input id="telefone" name="telefone" type="tel" placeholder="Telemóvel (obrigatório)" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:12px;">
+                    <h4 style="margin:6px 0;">Forma de Pagamento <span style="color:#c0392b;margin-left:4px;font-weight:700;">*</span></h4>
+                    <div class="payment-options" role="radiogroup" aria-labelledby="payment-label" style="display:flex;gap:12px;flex-wrap:wrap;align-items:center;">
+                        <label>
+                            <input type="radio" name="payment_method" value="cartao_debito" required>
+                            Cartão de Débito
+                        </label>
+                        <label>
+                            <input type="radio" name="payment_method" value="mbway" required>
+                            MB WAY
+                        </label>
+                        <label>
+                            <input type="radio" name="payment_method" value="paypal" required>
+                            PayPal
+                        </label>
+                        <label>
+                            <input type="radio" name="payment_method" value="multibanco" required>
+                            Referência Multibanco
+                        </label>
+                    </div>
+                    <div class="muted" style="margin-top:8px;font-size:13px;">Será redirecionado ou mostrada a referência conforme o método seleccionado.</div>
+                    <div id="mb-result" class="mb-reference" style="display:none;"></div>
+                </div>
+            </form>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn ghost" id="modal-close-btn" onclick="closeCheckoutModal()">Voltar</button>
+            <div style="display:flex; gap:8px;">
+                <button class="btn secondary" id="confirm-checkout-btn" onclick="confirmCheckout()">Confirmar Compra</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Logo / imagem -->
+<div style="text-align:center;margin:18px;">
+    <img src="{{ url_for('static', filename='images/TJRArcondicionado.png') }}" alt="TJR- Ar Condicionado" style="max-width:220px;opacity:0.95;">
+</div>
+
+<script>
+    // guarda o template original do modal para restaurar quando fecharmos os detalhes
+    let checkoutModalTemplate = null;
+    let originalModalTitle = null;
+
+    // ---------- localStorage fallback helpers ----------
+    const LOCAL_KEY = 'local_basket_v1';
+
+    function getLocalBasket() {
+        try {
+            const raw = localStorage.getItem(LOCAL_KEY);
+            if (!raw) return { basket: {}, summary: { total: 0, num_items: 0 } };
+            return JSON.parse(raw);
+        } catch (e) {
+            console.warn('Erro ao ler localBasket', e);
+            return { basket: {}, summary: { total: 0, num_items: 0 } };
+        }
+    }
+
+    function saveLocalBasket(data) {
+        try {
+            localStorage.setItem(LOCAL_KEY, JSON.stringify(data));
+        } catch (e) {
+            console.warn('Erro ao salvar localBasket', e);
+        }
+    }
+
+    function resetLocalBasket() {
+        const empty = { basket: {}, summary: { total: 0, num_items: 0 } };
+        saveLocalBasket(empty);
+        return empty;
+    }
+
+    // ---------- UI update ----------
+    function updateBasketDisplay(basketData) {
+        const list = document.getElementById('item-list');
+        list.innerHTML = '';
+
+        const basket = basketData.basket || {};
+        for (const id in basket) {
+            const item = basket[id];
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <div style="flex:1;">
+                    <strong>${escapeHtml(item.name)}</strong>
+                    <div class="muted" style="font-size:13px;">Qtd: ${item.quantity}</div>
+                </div>
+                <div style="text-align:right; margin-left:12px;">
+                    <div>${(item.price * item.quantity).toFixed(2)} €</div>
+                    <div style="margin-top:6px;">
+                        <button class="btn ghost" style="padding:6px 8px;font-size:13px;" onclick="removeFromBasket('${id}')">-1</button>
+                        <button class="btn ghost" style="padding:6px 8px;font-size:13px;margin-left:6px;" onclick="removeFromBasket('${id}', true)">Remover Tudo</button>
+                    </div>
+                </div>
+            `;
+            list.appendChild(li);
+        }
+
+        const total = (basketData.summary && basketData.summary.total) ? basketData.summary.total : 0;
+        const numItems = (basketData.summary && basketData.summary.num_items) ? basketData.summary.num_items : 0;
+        document.getElementById('basket-total').textContent = `${Number(total).toFixed(2)} €`;
+        document.getElementById('basket-count').textContent = numItems;
+    }
+
+    // Utilitário para escapar texto nas inserções HTML
+    function escapeHtml(unsafe) {
+        if (!unsafe && unsafe !== 0) return '';
+        return String(unsafe)
+            .replaceAll('&','&amp;')
+            .replaceAll('<','&lt;')
+            .replaceAll('>','&gt;')
+            .replaceAll('"','&quot;')
+            .replaceAll("'",'&#039;');
+    }
+
+    // Extrai nome e preço a partir do botão (fallback local)
+    function extractProductInfoFromButton(btnEl) {
+        try {
+            const card = btnEl ? btnEl.closest('.product-card') : null;
+            if (card) {
+                const nameEl = card.querySelector('h3');
+                const priceAttr = card.getAttribute('data-price');
+                let price = priceAttr ? parseFloat(priceAttr) : null;
+                if (isNaN(price) || price === null) {
+                    const priceEl = card.querySelector('.price');
+                    if (priceEl) {
+                        const p = String(priceEl.textContent || '').replace(/[^\d.,-]/g, '').replace(',', '.');
+                        price = parseFloat(p) || 0;
+                    } else {
+                        price = 0;
+                    }
+                }
+                return { name: nameEl ? nameEl.textContent.trim() : 'Produto', price: Number(price || 0) };
+            }
+        } catch (e) {
+            console.warn('Erro extraindo info do produto', e);
+        }
+        return { name: 'Produto', price: 0 };
+    }
+
+    // ---------- Add to basket (tenta API, senão localStorage) ----------
+    async function addToBasket(id, btnEl = null, quantity = 1) {
+        // tenta API primeiro
+        try {
+            const response = await fetch('/api/basket/add', {
+                method:'POST',
+                headers:{ 'Content-Type':'application/json' },
+                body: JSON.stringify({ id: id, quantity: quantity })
+            });
+
+            const contentType = response.headers.get('content-type') || '';
+            if (response.ok && contentType.includes('application/json')) {
+                const data = await response.json();
+                if (data && data.success) {
+                    updateBasketDisplay(data);
+                    showTempNotice('Item adicionado ao cesto', 1800, true);
+                    return;
+                } else {
+                    showTempNotice('Erro ao adicionar item: ' + (data?.message || 'erro desconhecido'), 3000, false);
+                    return;
+                }
+            } else {
+                console.warn('API add retornou não-JSON ou erro; usando fallback local', response.status);
+            }
+        } catch (err) {
+            console.warn('Falha na chamada API addToBasket, usando fallback local', err);
+        }
+
+        // fallback local: gravar em localStorage
+        const local = getLocalBasket();
+        const prodInfo = extractProductInfoFromButton(btnEl);
+        const price = Number(prodInfo.price || 0);
+        if (!local.basket[id]) {
+            local.basket[id] = { name: prodInfo.name, price: price, quantity: 0 };
+        }
+        local.basket[id].quantity += Number(quantity);
+        // recalcular resumo
+        let total = 0, num_items = 0;
+        for (const k in local.basket) {
+            const it = local.basket[k];
+            total += (it.price * it.quantity);
+            num_items += Number(it.quantity);
+        }
+        local.summary = { total: Number(total), num_items: Number(num_items) };
+        saveLocalBasket(local);
+        updateBasketDisplay(local);
+        showTempNotice('Item adicionado ao cesto (local)', 1500, true);
+    }
+
+    // ---------- Remove from basket (API then fallback) ----------
+    async function removeFromBasket(id, removeAll = false) {
+        try {
+            const response = await fetch('/api/basket/remove', {
+                method:'POST',
+                headers:{ 'Content-Type':'application/json' },
+                body: JSON.stringify({ id: id, remove_all: removeAll })
+            });
+            const contentType = response.headers.get('content-type') || '';
+            if (response.ok && contentType.includes('application/json')) {
+                const data = await response.json();
+                if (data && data.success) {
+                    updateBasketDisplay(data);
+                    return;
+                } else {
+                    alert('Erro ao remover item: ' + (data?.message || 'erro desconhecido'));
+                    return;
+                }
+            } else {
+                console.warn('API remove retornou não-JSON/erro; usando fallback local', response.status);
+            }
+        } catch (err) {
+            console.warn('Falha na chamada API removeFromBasket, usando fallback local', err);
+        }
+
+        // fallback local
+        const local = getLocalBasket();
+        if (!local.basket[id]) return;
+        if (removeAll) {
+            delete local.basket[id];
+        } else {
+            local.basket[id].quantity = Math.max(0, local.basket[id].quantity - 1);
+            if (local.basket[id].quantity === 0) delete local.basket[id];
+        }
+        // recalcular resumo
+        let total = 0, num_items = 0;
+        for (const k in local.basket) {
+            const it = local.basket[k];
+            total += (it.price * it.quantity);
+            num_items += Number(it.quantity);
+        }
+        local.summary = { total: Number(total), num_items: Number(num_items) };
+        saveLocalBasket(local);
+        updateBasketDisplay(local);
+    }
+
+    // Limpar cesto (tenta backend, senão local)
+    async function clearBasket(){
+        if (!confirm('Tem a certeza que deseja limpar o cesto?')) return;
+        try{
+            const response = await fetch('/api/basket/clear', { method:'POST' });
+            const contentType = response.headers.get('content-type') || '';
+            if (response.ok && contentType.includes('application/json')) {
+                const data = await response.json();
+                if (data && data.success) {
+                    updateBasketDisplay(data);
+                    showTempNotice('Cesto limpo', 1600, true);
+                    resetLocalBasket();
+                    return;
+                }
+            }
+        }catch(err){
+            console.warn('Erro ao limpar via API, limpando localmente', err);
+        }
+        const local = resetLocalBasket();
+        updateBasketDisplay(local);
+        showTempNotice('Cesto limpo localmente', 1600, true);
+    }
+
+    // Inicializa cesto ao carregar a página
+    document.addEventListener('DOMContentLoaded', async () => {
+        try{
+            // guarda o template original do modal para restaurar depois
+            const modalBodyEl = document.getElementById('modal-body');
+            checkoutModalTemplate = modalBodyEl ? modalBodyEl.innerHTML : '';
+            originalModalTitle = document.getElementById('modal-title') ? document.getElementById('modal-title').textContent : 'Modal';
+
+            // tenta obter cesto via API
+            const response = await fetch('/api/basket');
+            const contentType = response.headers.get('content-type') || '';
+            if (response.ok && contentType.includes('application/json')) {
+                const data = await response.json();
+                updateBasketDisplay(data);
+                return;
+            } else {
+                console.warn('API /api/basket não disponível ou não devolveu JSON, usando localStorage');
+            }
+        }catch(err){
+            console.warn('Não foi possível obter o cesto inicial via API:', err);
+        }
+
+        // fallback: localStorage
+        const local = getLocalBasket();
+        updateBasketDisplay(local);
+    });
+
+    // --------------------------------------------------------------------------------
+    // Modal: checkout e detalhes - implementação melhorada
+    // --------------------------------------------------------------------------------
+
+    // Abre o modal em modo "checkout" (mostra itens e formulário)
+    function openCheckoutModal(){
+        fetch('/api/basket').then(async r=>{
+            const ct = r.headers.get('content-type') || '';
+            if (r.ok && ct.includes('application/json')) return r.json();
+            return getLocalBasket();
+        }).then(data=>{
+            const list = document.getElementById('modal-item-list'); list.innerHTML = '';
+            const basket = data.basket || {};
+            let any = false;
+            for (const id in basket) {
+                any = true;
+                const it = basket[id];
+                const li = document.createElement('li');
+                li.style.display = 'flex'; li.style.justifyContent = 'space-between'; li.style.padding = '8px 0';
+                li.innerHTML = `<div>${escapeHtml(it.name)} <span class="muted" style="font-size:12px;">(x${it.quantity})</span></div><div>${(it.price * it.quantity).toFixed(2)} €</div>`;
+                list.appendChild(li);
+            }
+            document.getElementById('modal-total').textContent = `${(data.summary?.total || 0).toFixed(2)} €`;
+
+            const confirmBtn = document.getElementById('confirm-checkout-btn');
+            if (!any) {
+                list.innerHTML = '<li class="muted">O cesto está vazio. Adicione produtos antes de finalizar.</li>';
+                if (confirmBtn) { confirmBtn.disabled = true; confirmBtn.style.opacity = 0.6; }
+            } else {
+                if (confirmBtn) { confirmBtn.disabled = false; confirmBtn.style.opacity = 1; }
+            }
+
+            // esconder resultado MB anterior
+            const mbEl = document.getElementById('mb-result');
+            mbEl.style.display = 'none';
+            mbEl.innerHTML = '';
+
+            // mostrar modal
+            const backdrop = document.getElementById('modal-backdrop');
+            backdrop.style.display = 'grid';
+            backdrop.setAttribute('aria-hidden','false');
+
+            // adicionar listener de ESC e click fora apenas para o modo checkout
+            function onKeyDown(e){ if (e.key === 'Escape') closeCheckoutModal(); }
+            document.addEventListener('keydown', onKeyDown);
+            openCheckoutModal._onKeyDown = onKeyDown;
+
+            function onBackdropClick(e){ if (e.target === backdrop) closeCheckoutModal(); }
+            backdrop.addEventListener('click', onBackdropClick);
+            openCheckoutModal._onBackdropClick = onBackdropClick;
+        }).catch(err=>{
+            console.error(err);
+            alert('Erro ao obter cesto. Tente novamente.');
+        });
+    }
+
+    function closeCheckoutModal(){
+        // restaura o conteúdo do modal ao template original (checkout)
+        const modalBodyEl = document.getElementById('modal-body');
+        if (checkoutModalTemplate !== null && modalBodyEl) modalBodyEl.innerHTML = checkoutModalTemplate;
+        if (document.getElementById('modal-title')) document.getElementById('modal-title').textContent = originalModalTitle || 'Confirmar Finalização da Compra';
+        const confirmBtn = document.getElementById('confirm-checkout-btn');
+        if (confirmBtn) { confirmBtn.style.display = ''; confirmBtn.disabled = false; confirmBtn.style.opacity = 1; }
+
+        const backdrop = document.getElementById('modal-backdrop');
+        backdrop.style.display = 'none';
+        backdrop.setAttribute('aria-hidden','true');
+
+        // remover listeners
+        if (openCheckoutModal._onBackdropClick) {
+            backdrop.removeEventListener('click', openCheckoutModal._onBackdropClick);
+            openCheckoutModal._onBackdropClick = null;
+        }
+        if (openCheckoutModal._onKeyDown) {
+            document.removeEventListener('keydown', openCheckoutModal._onKeyDown);
+            openCheckoutModal._onKeyDown = null;
+        }
+    }
+
+    // Versão robusta de openProductDetails: mostra loading, carrega ficheiro via fetch e trata erros,
+    // adiciona acessibilidade: foco, ESC e fechar ao clicar fora; restaura ao fechar.
+    async function openProductDetails(url) {
+        const backdrop = document.getElementById('modal-backdrop');
+        const modalBody = document.getElementById('modal-body');
+        const modalTitle = document.getElementById('modal-title');
+        const confirmBtn = document.getElementById('confirm-checkout-btn');
+
+        // estado loading
+        if (modalBody) modalBody.innerHTML = '<div style="padding:12px;">A carregar detalhes…</div>';
+        if (modalTitle) modalTitle.textContent = 'Detalhes do Produto';
+        if (confirmBtn) confirmBtn.style.display = 'none';
+        backdrop.style.display = 'grid';
+        backdrop.setAttribute('aria-hidden','false');
+
+        // guardar foco para restaurar
+        openProductDetails._lastFocused = document.activeElement;
+
+        try {
+            const res = await fetch(url, { cache: 'no-cache' });
+            if (!res.ok) {
+                console.error('Erro fetch detalhes:', res.status, res.statusText, url);
+                modalBody.innerHTML = '<div style="padding:12px;color:#b00020;">Não foi possível carregar os detalhes. Código: ' + res.status + '</div>';
+                return;
+            }
+            const html = await res.text();
+            if (!html || html.trim().length === 0) {
+                console.warn('Ficheiro de detalhes vazio:', url);
+                modalBody.innerHTML = '<div style="padding:12px;color:#b00020;">Detalhes não disponíveis (ficheiro vazio).</div>';
+                return;
+            }
+
+            // inserir conteúdo carregado
+            modalBody.innerHTML = html;
+
+            // foco no primeiro elemento interativo dentro do modal
+            setTimeout(()=>{
+                const focusable = backdrop.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+                if (focusable) try { focusable.focus(); } catch(e){}
+            }, 50);
+
+            // fechar ao clicar no backdrop
+            function onBackdropClick(e){
+                if (e.target === backdrop) {
+                    closeDetailsModal();
+                }
+            }
+            backdrop.addEventListener('click', onBackdropClick);
+            openProductDetails._onBackdropClick = onBackdropClick;
+
+            // fechar com ESC e manter foco dentro do modal (trap básico)
+            function onKeyDown(e){
+                if (e.key === 'Escape') {
+                    e.preventDefault();
+                    closeDetailsModal();
+                    return;
+                }
+                if (e.key === 'Tab') {
+                    // trap de foco simples
+                    const focusable = Array.from(backdrop.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+                        .filter(el => !el.disabled && el.offsetParent !== null);
+                    if (focusable.length === 0) return;
+                    const first = focusable[0];
+                    const last = focusable[focusable.length - 1];
+                    if (e.shiftKey && document.activeElement === first) {
+                        e.preventDefault();
+                        last.focus();
+                    } else if (!e.shiftKey && document.activeElement === last) {
+                        e.preventDefault();
+                        first.focus();
+                    }
+                }
+            }
+            document.addEventListener('keydown', onKeyDown);
+            openProductDetails._onKeyDown = onKeyDown;
+
+        } catch (err) {
+            console.error('Erro ao carregar ficheiro de detalhes:', err);
+            modalBody.innerHTML = '<div style="padding:12px;color:#b00020;">Erro ao carregar detalhes: ' + (err.message || err) + '</div>';
+        }
+    }
+
+    // Fecha modal quando aberto via openProductDetails e restaura template original
+    function closeDetailsModal() {
+        const backdrop = document.getElementById('modal-backdrop');
+        const modalBody = document.getElementById('modal-body');
+        const modalTitle = document.getElementById('modal-title');
+        const confirmBtn = document.getElementById('confirm-checkout-btn');
+
+        // restaurar o template original do checkout
+        if (checkoutModalTemplate !== null && modalBody) modalBody.innerHTML = checkoutModalTemplate;
+        if (modalTitle) modalTitle.textContent = originalModalTitle || 'Confirmar Finalização da Compra';
+        if (confirmBtn) { confirmBtn.style.display = ''; confirmBtn.disabled = false; confirmBtn.style.opacity = 1; }
+
+        backdrop.style.display = 'none';
+        backdrop.setAttribute('aria-hidden','true');
+
+        // remover listeners adicionados
+        if (openProductDetails._onBackdropClick) {
+            backdrop.removeEventListener('click', openProductDetails._onBackdropClick);
+            openProductDetails._onBackdropClick = null;
+        }
+        if (openProductDetails._onKeyDown) {
+            document.removeEventListener('keydown', openProductDetails._onKeyDown);
+            openProductDetails._onKeyDown = null;
+        }
+
+        // restaurar foco
+        try {
+            if (openProductDetails._lastFocused && typeof openProductDetails._lastFocused.focus === 'function') {
+                openProductDetails._lastFocused.focus();
+            }
+        } catch (e) { /* silencioso */ }
+        openProductDetails._lastFocused = null;
+    }
+
+    // Validação simples do formulário de checkout
+    function validateCheckoutForm() {
+        const form = document.getElementById('checkout-form');
+        if (!form) return { ok: true, data: {} };
+        if (!form.reportValidity()) return { ok: false };
+
+        const fd = new FormData(form);
+        const payload = {};
+        for (const [k, v] of fd.entries()) payload[k] = v;
+        if (!payload.nif) payload.nif = '';
+        return { ok: true, data: payload };
+    }
+
+    async function confirmCheckout(){
+        const btn = document.getElementById('confirm-checkout-btn');
+        if (!btn) return;
+        btn.disabled = true;
+        const originalTxt = btn.textContent;
+        btn.textContent = 'A processar...';
+
+        const validated = validateCheckoutForm();
+        if (!validated.ok) {
+            btn.disabled = false;
+            btn.textContent = originalTxt;
+            return;
+        }
+        const customerData = validated.data || {};
+
+        try{
+            let basketState = null;
+            try {
+                const r = await fetch('/api/basket');
+                const ct = r.headers.get('content-type') || '';
+                if (r.ok && ct.includes('application/json')) {
+                    basketState = await r.json();
+                }
+            } catch (e) {
+                console.warn('Não foi possível obter cesto via API, usando local', e);
+            }
+            if (!basketState) basketState = getLocalBasket();
+
+            const payload = {
+                customer: customerData,
+                basket: basketState,
+                metadata: { source: 'web_checkout' }
+            };
+
+            const paymentMethod = (customerData.payment_method || document.querySelector('input[name="payment_method"]:checked')?.value) || '';
+
+            if (paymentMethod === 'multibanco') {
+                const mbResp = await fetch('/api/payment/multibanco', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        amount: Number((basketState.summary?.total || 0)),
+                        currency: 'EUR',
+                        customer: customerData,
+                        items: basketState.basket || {},
+                        metadata: payload.metadata
+                    })
+                });
+
+                if (mbResp.ok) {
+                    const mbData = await mbResp.json();
+                    if (mbData && mbData.success && mbData.entidade && mbData.referencia) {
+                        const mbEl = document.getElementById('mb-result');
+                        mbEl.style.display = 'block';
+                        const validade = mbData.validade ? ('Validade: ' + mbData.validade) : '';
+                        mbEl.innerHTML = `
+                            <strong>Referência Multibanco gerada</strong>
+                            <div style="margin-top:6px;">Entidade: <strong>${escapeHtml(mbData.entidade)}</strong></div>
+                            <div>Referência: <strong>${escapeHtml(mbData.referencia)}</strong></div>
+                            <div>Valor: <strong>${Number(mbData.valor).toFixed(2)} €</strong></div>
+                            <div style="margin-top:6px;" class="muted">${escapeHtml(mbData.instructions || validade || 'Pague a referência numa caixa MB, homebanking ou app.')}</div>
+                        `;
+
+                        try {
+                            const ticketPayload = {
+                                type: 'order',
+                                payment_method: 'multibanco',
+                                payment: {
+                                    entidade: mbData.entidade,
+                                    referencia: mbData.referencia,
+                                    valor: mbData.valor,
+                                    validade: mbData.validade || null
+                                },
+                                customer: customerData,
+                                basket: basketState,
+                                metadata: { source: 'web_checkout', mb_provider_response: mbData }
+                            };
+                            const tResp = await fetch('/api/tickets/create', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify(ticketPayload)
+                            });
+                            if (tResp.ok) {
+                                const tData = await tResp.json();
+                                if (tData && tData.success && tData.ticket_id) {
+                                    mbEl.innerHTML += `<div style="margin-top:8px;" class="muted">Ticket criado: <strong>${escapeHtml(tData.ticket_id)}</strong></div>`;
+                                }
+                            } else {
+                                console.warn('Falha a criar ticket no servidor', tResp.status);
+                            }
+                        } catch (e) {
+                            console.warn('Erro ao criar ticket:', e);
+                        }
+
+                        resetLocalBasket();
+                        updateBasketDisplay(getLocalBasket());
+                        btn.disabled = false;
+                        btn.textContent = originalTxt;
+                        return;
+                    } else {
+                        alert('Não foi possível gerar a referência Multibanco: ' + (mbData?.message || 'resposta inválida'));
+                        btn.disabled = false;
+                        btn.textContent = originalTxt;
+                        return;
+                    }
+                } else {
+                    const txt = await mbResp.text();
+                    alert('Erro do servidor ao gerar referência Multibanco: ' + (mbResp.status + ' ' + txt));
+                    btn.disabled = false;
+                    btn.textContent = originalTxt;
+                    return;
+                }
+            }
+
+            const response = await fetch('/api/basket/checkout', {
+                method:'POST',
+                headers:{ 'Content-Type':'application/json' },
+                body: JSON.stringify(payload)
+            });
+            const contentType = response.headers.get('content-type') || '';
+            if (response.ok && contentType.includes('application/json')) {
+                const data = await response.json();
+                if (data && data.success) {
+                    closeCheckoutModal();
+                    document.getElementById('success-banner').style.display = 'block';
+                    updateBasketDisplay(data);
+                    resetLocalBasket();
+                    if (data.redirect_url) {
+                        setTimeout(()=>{ window.location.href = data.redirect_url; }, 1200);
+                    } else {
+                        setTimeout(()=>{ window.location.href = '/checkout_form'; }, 1400);
+                    }
+                    return;
+                } else {
+                    alert('Erro ao finalizar compra: ' + (data?.message || 'Erro desconhecido'));
+                    btn.disabled = false;
+                    btn.textContent = originalTxt;
+                    return;
+                }
+            } else {
+                closeCheckoutModal();
+                document.getElementById('success-banner').style.display = 'block';
+                const local = resetLocalBasket();
+                updateBasketDisplay(local);
+                setTimeout(()=>{ window.location.href = '/checkout_form'; }, 1500);
+                return;
+            }
+        }catch(err){
+            console.error(err);
+            closeCheckoutModal();
+            document.getElementById('success-banner').style.display = 'block';
+            const local = resetLocalBasket();
+            updateBasketDisplay(local);
+            setTimeout(()=>{ window.location.href = '/checkout_form'; }, 1500);
+        } finally {
+            btn.textContent = originalTxt;
+        }
+    }
+
+    // Pequena notificação temporária (toast)
+    function showTempNotice(text, duration = 2000, positive=true){
+        const el = document.createElement('div');
+        el.textContent = text;
+        el.style.position = 'fixed';
+        el.style.right = '18px';
+        el.style.bottom = '18px';
+        el.style.zIndex = 1400;
+        el.style.padding = '10px 14px';
+        el.style.borderRadius = '10px';
+        el.style.color = '#fff';
+        el.style.fontWeight = 600;
+        el.style.boxShadow = '0 8px 24px rgba(2,6,23,0.35)';
+        el.style.background = positive ? 'linear-gradient(90deg,#28a745,#57d38f)' : 'linear-gradient(90deg,#c0392b,#ff6b6b)';
+        document.body.appendChild(el);
+        setTimeout(()=>{ el.style.transition = 'opacity .4s ease'; el.style.opacity = '0'; }, duration - 300);
+        setTimeout(()=>{ el.remove(); }, duration);
+    }
+</script>
+<script src="{{ url_for('static', filename='/payments_client.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <title>Redefinir Senha</title>
+    <style>
+        body{font-family:Arial,padding:30px;background:#f4f4f4}
+        .box{max-width:420px;margin:0 auto;background:#fff;padding:20px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+        input,button{width:100%;padding:10px;margin-top:8px;border-radius:4px;border:1px solid #ccc}
+        .btn{background:#004d99;color:#fff;border:none}
+        .alert{padding:10px;margin-top:12px;border-radius:4px}
+        .alert-danger{background:#ffecec;color:#b30000}
+        .alert-success{background:#e6ffed;color:#044d17}
+    </style>
+</head>
+<body>
+<div class="box">
+    <h2>Redefinir Senha</h2>
+    <p>Defina a nova senha para a sua conta.</p>
+
+    <form method="POST" action="{{ url_for('auth.reset_token', token=token) }}">
+        {{ form.hidden_tag() }}
+        <label for="senha">{{ form.senha.label }}</label>
+        {{ form.senha(id="senha") }}
+
+        <label for="senha2">{{ form.senha2.label if form.senha2 is defined else 'Confirmar Senha' }}</label>
+        {% if form.senha2 is defined %}
+          {{ form.senha2(id="senha2") }}
+        {% else %}
+          <input type="password" id="senha2" name="senha2" required>
+        {% endif %}
+
+        <button type="submit" class="btn">Redefinir Senha</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert {{ 'alert-success' if category=='success' else 'alert-danger' }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div style="margin-top:12px;"><a href="{{ url_for('auth.login') }}">Voltar ao Login</a></div>
+</div>
+</body>
+</html>
