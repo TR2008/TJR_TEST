@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="utf-8">
+    <title>Referências — HVACsolution81</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background:#f7f7f7; color:#222; }
+        .container { max-width: 1000px; margin: 40px auto; padding: 24px; background: #fff; border-radius: 8px; box-shadow: 0 6px 18px rgba(0,0,0,0.06); }
+        h1 { color:#d9534f; margin-bottom: 8px; }
+        p.lead { color:#555; margin-top:0; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; margin-top:20px; }
+        .card { background:#fafafa; border:1px solid #eee; padding:16px; border-radius:6px; }
+        .card h3 { margin:0 0 8px 0; color:#004d99; font-size:18px; }
+        .card ul { margin:0; padding-left:18px; color:#333; }
+        .card li { margin-bottom:6px; }
+        .note { margin-top:18px; font-size:13px; color:#666; }
+        a { color:#d9534f; text-decoration:none; }
+        a:hover { text-decoration:underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Referências</h1>
+        <p class="lead">Recursos, contactos e exemplos de trabalhos relacionados com instalação e manutenção de climatização.</p>
+
+        <div class="grid">
+            <div class="card">
+                <h3>Blog</h3>
+                <p>Artigos, dicas e guias técnicos para profissionais e clientes.</p>
+                <ul>
+                    <li><a href="/blog">Ver publicações do blog</a></li>
+                    <li>Categoria: Instalação — artigos com passo a passo</li>
+                    <li>Categoria: Manutenção — melhores práticas e checklists</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Instaladores & Parceiros</h3>
+                <p>Empresas e técnicos certificados com quem trabalhamos.</p>
+                <ul>
+                    <li>Instalador A — contacto: <strong>telefone@email.ex</strong></li>
+                    <li>Instalador B — área: residenciais e comerciais</li>
+                    <li>Procura parceiro na sua zona? <a href="{{ url_for('paginas.contactos') }}">Contacte-nos</a></li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Manutenção</h3>
+                <p>Serviços de manutenção preventiva e corretiva para sistemas HVAC.</p>
+                <ul>
+                    <li>Planos de manutenção trimestrais/anuais</li>
+                    <li>Assistência técnica 24/7 (onde disponível)</li>
+                    <li>Relatórios técnicos e historial de intervenções</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3>Projetos e Estudos de Caso</h3>
+                <p>Exemplos de instalações realizadas e resultados alcançados.</p>
+                <ul>
+                    <li>Projeto X — cliente comercial: redução de consumo em 18%</li>
+                    <li>Projeto Y — cliente residencial: instalação bomba de calor</li>
+                    <li>Para ver o portefólio completo, visite a secção de Produtos/Serviços</li>
+                </ul>
+            </div>
+        </div>
+
+        <p class="note">
+            Nota: Esta página pode ser pública ou exigente de autenticação conforme a sua escolha.
+            Atualmente a rota <code>/referencias</code> verifica sessão e redirecciona para o login se não houver utilizador autenticado.
+            Se pretende que a página seja pública, remova a verificação <code>if 'utilizador' not in session: return redirect(url_for('auth.login'))</code> na rota.
+        </p>
+    </div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<div style="padding:12px; max-width:720px; box-sizing:border-box;">
+  <!-- Banner / logo no topo -->
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+    <img src="{{ url_for('static', filename='images/TJRArcondicionado.png') }}"
+         alt="TJR - Ar Condicionado"
+         style="height:48px; width:auto; display:block;">
+    <h3 style="margin:0;font-size:1.05rem;">Kit LG 7.000–12.000 BTU — Tubos Frigoríficos até 5 m + Cabos de Alimentação</h3>
+  </div>
+
+  <div class="muted" style="margin-bottom:8px;">Kit preparado para unidades LG na faixa de 7.000 a 12.000 BTU, com tubagem frigorífica até 5 m e cabos de alimentação 3G/5G 1,5 mm² incluídos.</div>
+
+  <ul style="margin:8px 0 12px 18px; color: #2b2b2b;">
+    <li><strong>Tubos frigoríficos</strong> — até 5 m por unidade (cobre nu ou pré-isolado; especifique diâmetros: ex. Ø6/Ø10/Ø12 mm)</li>
+    <li><strong>Isolamento térmico</strong> — espuma/elastómero para tubagem frigorífica</li>
+    <li><strong>Acessórios de serviço</strong> — válvulas de serviço, filtros-dry, manifolds e adaptadores para carga</li>
+    <li><strong>Acessórios de drenagem</strong> — tubo de condensados, sifão e conexões (inclui opção de bomba de condensado se necessário)</li>
+    <li><strong>Cabos de alimentação</strong> — H05VV-F 3G 1,5 mm² e H05VV-F 5G 1,5 mm² (incluídos explicitamente) — comprimento conforme necessidade</li>
+    <li><strong>Fixação e ferragens</strong> — braçadeiras, suportes, buchas, porcas e anilhas</li>
+  </ul>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+    <figure style="flex:1 1 220px; margin:0;">
+      <a href="{{ url_for('static', filename='images/tubos_frigorificos.jpg') }}" target="_blank" rel="noopener">
+        <img src="{{ url_for('static', filename='images/tubos_frigorificos.jpg') }}"
+             alt="Tubos frigoríficos"
+             style="width:100%; height:auto; border-radius:8px; display:block; box-shadow:0 6px 18px rgba(0,0,0,0.12);"
+             loading="lazy">
+      </a>
+      <figcaption style="font-size:13px; color:#555; margin-top:6px;">Exemplo de tubo frigorífico</figcaption>
+    </figure>
+
+    <figure style="flex:1 1 220px; margin:0;">
+      <a href="{{ url_for('static', filename='images/cabos_alimentacao.jpg') }}" target="_blank" rel="noopener">
+        <img src="{{ url_for('static', filename='images/cabos_alimentacao.jpg') }}"
+             alt="Cabos de alimentação"
+             style="width:100%; height:auto; border-radius:8px; display:block; box-shadow:0 6px 18px rgba(0,0,0,0.12);"
+             loading="lazy">
+      </a>
+      <figcaption style="font-size:13px; color:#555; margin-top:6px;">Cabos de alimentação padrão (H05VV-F 3G/5G 1,5 mm²)</figcaption>
+    </figure>
+  </div>
+
+  <div style="margin-top:12px;" class="muted">Observações:</div>
+  <ul style="margin:6px 0 0 18px; color: #2b2b2b;">
+    <li>Confirme o modelo LG exato (ex.: S09/12) para validar bitola do cabo e diâmetros dos tubos.</li>
+    <li>Indique se prefere tubos pré-isolados ou cobre nu com isolamento no local.</li>
+    <li>Incluído explicitamente: cabo H05VV-F 5G 1,5 mm² além do 3G 1,5 mm².</li>
+    <li>Serviços adicionais (carga de gás R32/R410A, comissionamento, instalação) são orçados separadamente.</li>
+  </ul>
+
+  <div style="margin-top:12px; display:flex; gap:8px;">
+    <button class="btn ghost" onclick="closeDetailsModal()">Fechar</button>
+    <button class="btn" style="margin-left:auto;" onclick="addToBasket('10', this)">Adicionar Kit LG 7k–12k BTU</button>
+  </div>
+</div>

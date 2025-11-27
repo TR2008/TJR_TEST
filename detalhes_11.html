@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8" />
+  <title>Orçamento — Levantamento, Diagnóstico e Reparação (Detalhe 11)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; color:#222; margin:20px; max-width:900px; }
+    header { display:flex; align-items:center; gap:16px; margin-bottom:18px; }
+    header img { height:56px; }
+    h1 { font-size:1.05rem; margin:0; }
+    .muted { color:#666; font-size:0.95rem; margin-top:6px; }
+    .grid { display:flex; gap:20px; flex-wrap:wrap; }
+    .box { flex:1 1 320px; background:#f8f8f8; padding:12px; border-radius:6px; }
+    table { width:100%; border-collapse:collapse; margin-top:12px; }
+    th, td { padding:8px 10px; border:1px solid #e2e2e2; text-align:left; font-size:0.96rem; }
+    th { background:#fafafa; }
+    .right { text-align:right; }
+    .totals { margin-top:12px; width:100%; max-width:320px; }
+    .note { font-size:0.9rem; color:#444; margin-top:10px; }
+    footer { margin-top:18px; display:flex; gap:12px; align-items:center; justify-content:space-between; }
+    .signature { height:72px; border-top:1px solid #ddd; width:320px; padding-top:8px; font-size:0.9rem; color:#555; }
+    .btn { display:inline-block; padding:8px 12px; background:#2b7be4; color:white; border-radius:6px; text-decoration:none; }
+    .small { font-size:0.9rem; color:#666; }
+    .label { font-weight:700; }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img src="images/TJRArcondicionado.png" alt="TJR — Ar Condicionado" />
+    <div>
+      <h1>Orçamento — Levantamento, Diagnóstico e Reparação (Detalhe 11)</h1>
+      <div class="muted">Inclui deslocações até 50 km | Relatório técnico posterior com registo completo</div>
+    </div>
+  </header>
+
+  <div class="grid">
+    <div class="box">
+      <div><span class="label">Orçamento nº:</span> <strong>[NÚMERO]</strong></div>
+      <div><span class="label">Data:</span> <strong>[DD/MM/AAAA]</strong></div>
+      <div class="small"><span class="label">Validade:</span> 15 dias</div>
+
+      <hr style="margin:10px 0;" />
+
+      <div><span class="label">Cliente:</span> [NOME DO CLIENTE]</div>
+      <div><span class="label">Morada:</span> [ENDEREÇO]</div>
+      <div><span class="label">Local da intervenção:</span> [LOCAL]</div>
+    </div>
+
+    <div class="box">
+      <div><span class="label">Equipamento (será confirmado no levantamento):</span></div>
+      <ul style="margin:8px 0 0 18px;">
+        <li><strong>Tipo:</strong> Ar condicionado / equipamento frigorífico</li>
+        <li><strong>Marca / Modelo:</strong> [MARCA / MODELO]</li>
+        <li><strong>N.º de série:</strong> [N.º DE SÉRIE]</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 style="font-size:1rem; margin-top:18px;">Descrição detalhada dos serviços</h2>
+
+  <table aria-label="Itens do orçamento">
+    <thead>
+      <tr>
+        <th>Serviço / Material</th>
+        <th>Descrição</th>
+        <th style="width:110px" class="right">Preço (€)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1. Levantamento e cálculo para instalação</strong></td>
+        <td>Visita técnica para medição, trajecto de tubagem, passagem de cabos, verificação de suportes e necessidades de material. Emissão de orçamento detalhado para instalação.</td>
+        <td class="right">[€ XX,XX]</td>
+      </tr>
+
+      <tr>
+        <td><strong>2. Diagnóstico e relatório técnico</strong></td>
+        <td>Inspeção completa: testes eléctricos e frigoríficos, registo de sintomas; levantamento do equipamento (marca, modelo, nº série). Relatório técnico posterior com diagnóstico e recomendações.</td>
+        <td class="right">[€ XX,XX]</td>
+      </tr>
+
+      <tr>
+        <td><strong>3. Reparação (pequenas intervenções)</strong></td>
+        <td>Mão-de-obra para reparações possíveis no local e consumíveis de pequena monta (selantes, braçadeiras, veda-roscas, filtros-dry, óleos).</td>
+        <td class="right">[€ XX,XX]</td>
+      </tr>
+
+      <tr>
+        <td><strong>4. Consumíveis incluídos</strong></td>
+        <td>Valor máximo incluído em consumíveis de pequena monta; excedente será orçado.</td>
+        <td class="right">[€ YY,YY]</td>
+      </tr>
+
+      <tr>
+        <td><strong>5. Peças de substituição (não incluídas)</strong></td>
+        <td>Compressores, placas electrónicas, trocadores e outras peças de maior valor serão orçadas separadamente após diagnóstico; substituição com aprovação do cliente.</td>
+        <td class="right">[€ 0,00]</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="display:flex; justify-content:flex-end;">
+    <table class="totals" role="presentation">
+      <tbody>
+        <tr>
+          <td class="small">Subtotal</td>
+          <td class="right">[€ SUBTOTAL]</td>
+        </tr>
+        <tr>
+          <td class="small">IVA ([TAXA]%)</td>
+          <td class="right">[€ IVA]</td>
+        </tr>
+        <tr>
+          <th>Total</th>
+          <th class="right">[€ TOTAL]</th>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="note">
+    Observações:
+    <ul>
+      <li>Deslocações até 50 km a partir do centro de operações: incluídas. Fora deste raio será aplicada taxa por km ou tarifa negociada.</li>
+      <li>O relatório técnico será entregue até [X] dias úteis após a intervenção, contendo: levantamento do equipamento (marca, modelo, nº série), medições, diagnóstico, peças/consumíveis aplicados e orçamento para peças adicionais, se necessário.</li>
+      <li>Prazos de fornecimento e valores de peças dependem do fornecedor e serão indicados no orçamento complementar.</li>
+      <li>Pagamento: 50% sinal na aceitação do orçamento para encomenda de peças (quando aplicável); restante após conclusão ou a 30 dias, conforme acordado.</li>
+    </ul>
+  </div>
+
+  <footer>
+    <div>
+      <div class="small"><strong>Contato:</strong> TJR Ar Condicionado</div>
+      <div class="small">Telefone: [TEL]</div>
+      <div class="small">E-mail: [EMAIL]</div>
+    </div>
+
+    <div style="text-align:right;">
+      <div class="signature">Assinatura do Cliente</div>
+      <div class="small" style="margin-top:6px;">Data: ____/____/________</div>
+    </div>
+  </footer>
+
+  <!-- Opcional: botão para imprimir ou guardar como PDF -->
+  <div style="margin-top:16px;">
+    <a class="btn" href="#" onclick="window.print(); return false;">Imprimir / Guardar como PDF</a>
+  </div>
+
+</body>
+</html>

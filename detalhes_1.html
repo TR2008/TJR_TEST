@@ -1,0 +1,53 @@
+<div style="padding:12px; max-width:720px; box-sizing:border-box;">
+  <!-- Banner / logo no topo -->
+  <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
+    <img src="{{ url_for('static', filename='images/TJRArcondicionado.png') }}"
+         alt="TJR - Ar Condicionado"
+         style="height:48px; width:auto; display:block;">
+    <h3 style="margin:0;font-size:1.05rem;">Instalação Simples — Conteúdo do Pacote</h3>
+  </div>
+
+  <div class="muted" style="margin-bottom:8px;">O pacote "Instalação Simples" inclui os seguintes materiais padrão:</div>
+
+  <ul style="margin:8px 0 12px 18px; color: #2b2b2b;">
+    <li><strong>Kit de tubos</strong> — 3 m (tubagem para ligação frigorífica/condutas, conforme necessidade)</li>
+    <li><strong>Cabo H05VV-F 3G 1,5 mm²</strong> — cor: preto (para alimentação simples)</li>
+    <li><strong>Cabo H05VV-F 5G 1,5 mm²</strong> — cor: preto (quando é necessário condutor adicional/terra e outros sinais)</li>
+  </ul>
+
+  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+    <figure style="flex:1 1 220px; margin:0;">
+      <a href="{{ url_for('static', filename='images/kit_tubos.jpg') }}" target="_blank" rel="noopener">
+        <img src="{{ url_for('static', filename='images/kit_tubos.jpg') }}"
+             alt="Kit de tubos para instalação"
+             style="width:100%; height:auto; border-radius:8px; display:block; box-shadow:0 6px 18px rgba(0,0,0,0.12);"
+             loading="lazy">
+      </a>
+      <figcaption style="font-size:13px; color:#555; margin-top:6px;">Kit de tubos — visual do material incluído</figcaption>
+    </figure>
+
+    <figure style="flex:1 1 220px; margin:0;">
+      <a href="{{ url_for('static', filename='images/cabos_1.jpg') }}" target="_blank" rel="noopener">
+        <img src="{{ url_for('static', filename='images/cabos_1.jpg') }}"
+             alt="Cabos H05VV-F incluídos no pacote"
+             style="width:100%; height:auto; border-radius:8px; display:block; box-shadow:0 6px 18px rgba(0,0,0,0.12);"
+             loading="lazy">
+      </a>
+      <figcaption style="font-size:13px; color:#555; margin-top:6px;">Cabos H05VV-F 3G/5G — exemplos</figcaption>
+    </figure>
+  </div>
+
+  <div style="margin-top:12px;" class="muted">
+    Observações:
+  </div>
+  <ul style="margin:6px 0 0 18px; color: #2b2b2b;">
+    <li>Comprimentos e quantidades padrão estão indicados; medidas finais podem variar conforme as condições no local.</li>
+    <li>Materiais adicionais (mais tubos, condutas mais longas, suportes, canalizações complexas, pintura, etc.) são cobrados à parte.</li>
+    <li>Se precisar de especificações técnicas ou marcas dos cabos/tubos, indique e enviamos ficha técnica ou orçamento detalhado.</li>
+  </ul>
+
+  <div style="margin-top:12px; display:flex; gap:8px;">
+    <button class="btn ghost" onclick="closeDetailsModal()">Fechar</button>
+    <button class="btn" style="margin-left:auto;" onclick="addToBasket('1', this)">Adicionar Instalação Simples</button>
+  </div>
+</div>
