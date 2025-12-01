@@ -1,14 +1,190 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <title>Automação controle de Climatização </title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Blog - Automação e Climatização</title>
+    <style>
+        :root {
+            --accent: #FF4500;
+            --bg: #eef6ff;
+            --card: #ffffff;
+            --muted: #666;
+            --table-odd: rgba(150, 212, 212, 0.4);
+        }
+
+        body {
+            font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+            color: #222;
+            line-height: 1.4;
+        }
+
+        .cabecalho {
+            background-color: var(--accent);
+            color: #fff;
+            padding: 20px;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:12px;
+        }
+
+        .cabecalho img.logo {
+            height:44px;
+            width:auto;
+            display:block;
+        }
+
+        .cabecalho h1 {
+            margin: 0;
+            font-size: 28px;
+            line-height:1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 20px auto;
+            padding: 0 16px;
+        }
+
+        .post {
+            background-color: var(--card);
+            margin: 16px 0;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .post h2, .post h3 {
+            margin-top: 0;
+            color: var(--accent);
+        }
+
+        .muted {
+            color: var(--muted);
+            font-size: 0.95rem;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 12px;
+        }
+
+        .excerpt { margin: 8px 0 0; color:#333; line-height:1.45; }
+
+        .cta {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content:space-between;
+            background: var(--card);
+            padding: 14px;
+            border-radius:8px;
+            box-shadow:0 6px 18px rgba(16,24,40,0.06);
+        }
+
+        .btn {
+            background-color: var(--accent);
+            border: none;
+            color: #fff;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .btn.secondary {
+            background-color: transparent;
+            color: var(--accent);
+            border: 2px solid var(--accent);
+            padding: 6px 12px;
+        }
+
+        @media (max-width: 700px) {
+            .cabecalho { flex-direction: column; gap:8px; padding:16px; }
+            .cabecalho img.logo { height:40px; }
+        }
+    </style>
 </head>
 <body>
+    <header class="cabecalho">
+        <img class="logo" src="{{ url_for('static', filename='images/TJRArcondicionado.png') }}" alt="TJR - Ar Condicionado">
+        <div>
+            <h1>Blog — Automação & Climatização</h1>
+            <div style="font-size:0.95rem; opacity:0.95;">Notícias, artigos técnicos e estudos de caso sobre HVAC e automação.</div>
+        </div>
+    </header>
+<img class="" src="{{ url_for('static', filename='images/'radar_radadr_with_legend.png) }}" alt="Radar">
+    <main class="container">
+        <section style="margin:18px 0;">
+            <h2>Últimos artigos</h2>
+            <p class="muted">Tutoriais, estudos de caso e artigos técnicos aplicáveis a projetos de climatização e automação.</p>
+        </section>
 
-Sensores de temperatura influencia a tecnologia inverter e processo de rotação do motor do compressor
-Termostato influencia a rotoção ventilador da maquina exterior
-Quando 2 sondas atingirem temperaturas -20 ºCelsius atuam função do degelo que basicamente faz inversão de ciclos de condensação e evaporação de fluido
+        <!-- Lista dinâmica se a rota passar 'posts', caso contrário o conteúdo estático abaixo será mostrado -->
+        {% if posts %}
+        <section class="posts-grid" aria-label="Lista de posts">
+            {% for post in posts %}
+            <article class="post" aria-labelledby="post-{{ loop.index }}">
+                <h3 id="post-{{ loop.index }}">{{ post.titulo }}</h3>
+                <div class="muted">{{ post.data }}</div>
+                <p class="excerpt">{{ post.resumo }}</p>
+                <p style="margin-top:8px;color:#444;">{{ post.conteudo }}</p>
+                <div style="margin-top:10px;">
+                    <!-- corrigido: usar o endpoint existente servicos_html -->
+                    <a class="btn" href="{{ url_for('paginas.servicos_html') }}">Ver Serviços</a>
+                    <a class="btn secondary" href="{{ url_for('paginas.contactos') }}">Contactos</a>
+                </div>
+            </article>
+            {% endfor %}
+        </section>
+        {% else %}
+        <section class="post">
+            <h3>Missão</h3>
+            <p>Cumprir, Liquidar, Amortizar</p>
 
+            <h3>Portfólio</h3>
+            <ul>
+                <li>Linguagem Ladder</li>
+                <li>Análise Dinamicas de Mercados</li>
+                <li>Inteligência Artificial</li>
+                <li>Raspberry Pi</li>
+            </ul>
+
+            <h3>Automatização versus Mecânica de Fluidos</h3>
+            <p>
+                Sensores de temperatura influenciam a tecnologia inverter e o processo de rotação do motor do compressor.
+                Termostato influencia a rotação do ventilador da máquina exterior.
+                Quando 2 sondas atingem temperaturas de -20 ºC atuam a função do degelo, que basicamente faz inversão de ciclos de condensação e evaporação de fluido.
+            </p>
+            <div style="margin-top:12px;">
+                <!-- corrigido aqui também -->
+                <a class="btn" href="{{ url_for('paginas.servicos_html') }}">Ver Serviços</a>
+                <a class="btn secondary" href="{{ url_for('paginas.contactos') }}">Contactos</a>
+            </div>
+        </section>
+        {% endif %}
+
+        <section class="cta" aria-label="Chamada para ação">
+            <p style="margin:0;font-weight:600;color:var(--accent);">Quer transformar o seu projeto com automação e eficiência energética?</p>
+            <div>
+                <!-- e aqui -->
+                <a class="btn" href="{{ url_for('paginas.servicos_html') }}">Solicitar Orçamento</a>
+                <a class="btn secondary" href="{{ url_for('paginas.contactos') }}">Fale Connosco</a>
+            </div>
+        </section>
+    </main>
+
+    <footer style="text-align:center;color:var(--muted);padding:18px 0;">
+        © 2025 Automação & Climatização — Todos os direitos reservados
+    </footer>
 </body>
 </html>
