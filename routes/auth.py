@@ -4,7 +4,7 @@ from forms import LoginForm, RegistrationForm, RegisterForm
 
 auth_bp = Blueprint('auth', __name__)
 
-@auth_bp.route('/')
+@auth_bp.route('/home')
 def home():
     if 'utilizador_id' in session:
         return redirect(url_for('paginas.dashboard'))

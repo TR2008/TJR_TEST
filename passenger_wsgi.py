@@ -9,8 +9,9 @@ import sys
 import os
 
 # Adicionar o diretório da aplicação ao path do Python
+# Ajustar o caminho do interpretador conforme o ambiente cPanel
 INTERP = os.path.expanduser("~/virtualenv/public_html/3.9/bin/python3")
-if sys.executable != INTERP:
+if os.path.exists(INTERP) and sys.executable != INTERP:
     os.execl(INTERP, INTERP, *sys.argv)
 
 # Importar a aplicação Flask
