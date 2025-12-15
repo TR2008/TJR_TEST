@@ -7,7 +7,7 @@ auth_bp = Blueprint('auth', __name__)
 @auth_bp.route('/')
 def home():
     if 'utilizador_id' in session:
-        return redirect(url_for('dashboard'))
+        return redirect(url_for('paginas.dashboard'))
     return redirect(url_for('auth.login'))
 
 @auth_bp.route('/login', methods=['GET', 'POST'])
@@ -20,7 +20,7 @@ def login():
         # usar o nome real do método do seu modelo
         if utilizador and utilizador.check_password(senha):
             session['utilizador_id'] = utilizador.id
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('paginas.dashboard'))
         else:
             erro = "Email ou password incorretos."
             flash(erro, "danger")
@@ -85,4 +85,4 @@ def inserir_cliente():
 # manter alias se necessário
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register_alias():
-    return redirect(url_for('inserir_cliente'))
+    return redirect(url_for('auth.inserir_cliente'))

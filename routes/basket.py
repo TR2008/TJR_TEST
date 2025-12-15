@@ -36,7 +36,7 @@ def _save_basket(basket):
 # Endpoints
 @basket_bp.route('/api/basket', methods=['GET'])
 def ver_cesto():
-    if 'utilizador' not in session:
+    if 'utilizador_id' not in session:
         return jsonify({'success': False, 'message': 'Não autenticado'}), 401
     basket = get_basket()
     summary = calculate_total(basket)
@@ -44,7 +44,7 @@ def ver_cesto():
 
 @basket_bp.route('/api/basket/add', methods=['POST'])
 def adicionar_ao_cesto():
-    if 'utilizador' not in session:
+    if 'utilizador_id' not in session:
         return jsonify({'success': False, 'message': 'Não autenticado'}), 401
 
     data = request.get_json() or {}
@@ -99,7 +99,7 @@ def adicionar_ao_cesto():
 
 @basket_bp.route('/api/basket/remove', methods=['POST'])
 def remover_do_cesto():
-    if 'utilizador' not in session:
+    if 'utilizador_id' not in session:
         return jsonify({'success': False, 'message': 'Não autenticado'}), 401
 
     data = request.get_json() or {}
@@ -124,7 +124,7 @@ def remover_do_cesto():
 
 @basket_bp.route('/api/basket/clear', methods=['POST'])
 def clear_basket():
-    if 'utilizador' not in session:
+    if 'utilizador_id' not in session:
         return jsonify({'success': False, 'message': 'Não autenticado'}), 401
     session.pop('basket', None)
     session.modified = True
@@ -132,7 +132,7 @@ def clear_basket():
 
 @basket_bp.route('/api/basket/checkout', methods=['POST'])
 def checkout():
-    if 'utilizador' not in session:
+    if 'utilizador_id' not in session:
         return jsonify({'success': False, 'message': 'Não autenticado'}), 401
 
     basket = get_basket()
@@ -143,7 +143,7 @@ def checkout():
     order = {
         'order_id': str(uuid.uuid4()),
         'created_at': int(time.time()),
-        'user': session.get('utilizador'),
+        'user_id': session.get('utilizador_id'),
         'items': basket,
         'summary': summary
     }

@@ -1,9 +1,7 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from config import Config
 from flask_wtf import CSRFProtect
 
-db = SQLAlchemy()
 csrf = CSRFProtect()
 
 
@@ -21,24 +19,36 @@ def create_app():
     app.config.setdefault('SESSION_COOKIE_SAMESITE', 'Lax')
     app.config.setdefault('SESSION_COOKIE_SECURE', False)
 
+    # Import db from models and initialize
+    from models import db
     db.init_app(app)
     csrf.init_app(app)
 
     with app.app_context():
         db.create_all()
 
-    # Importar e registar blueprints
-    from routes.auth import auth_bp
-    from routes.cliente import cliente_bp
-    from routes.produto import produto_bp
-    from routes.paginas import paginas_bp
-    from routes.basket import basket_bp
+    # Importar e registar blueprints com try/except para facilitar testes locais
+    blueprints = [
+        ('routes.auth', 'auth_bp'),
+        ('routes.cliente', 'cliente_bp'),
+        ('routes.produto', 'produto_bp'),
+        ('routes.paginas', 'paginas_bp'),
+        ('routes.basket', 'basket_bp'),
+    ]
+    
+    for module_name, bp_name in blueprints:
+        try:
+            module = __import__(module_name, fromlist=[bp_name])
+            blueprint = getattr(module, bp_name)
+            app.register_blueprint(blueprint)
+            print(f"✓ Registered blueprint: {bp_name}")
+        except (ImportError, AttributeError) as e:
+            print(f"✗ Could not register blueprint {bp_name}: {e}")
 
-    app.register_blueprint(auth_bp)
-    app.register_blueprint(cliente_bp)
-    app.register_blueprint(produto_bp)
-    app.register_blueprint(paginas_bp)
-    app.register_blueprint(basket_bp)
+    # Add a simple index route
+    @app.route('/')
+    def index():
+        return "Flask Application is running! Visit /login to access the application."
 
     return app
 

@@ -6,7 +6,7 @@ produto_bp = Blueprint('produto', __name__)
 @produto_bp.route('/inserir_preco', methods=['POST'])
 def inserir_preco():
 
-    if 'utilizador' not in session:
+    if 'utilizador_id' not in session:
         if request.is_json:
             return jsonify({'erro': 'Não autenticado'}), 401
         return redirect(url_for('auth.login'))
@@ -62,7 +62,7 @@ def atualizar_preco(produto_id):
     Atualiza o preço de um produto existente.
     Espera JSON com chave 'preco'.
     """
-    if 'utilizador' not in session:
+    if 'utilizador_id' not in session:
         if request.is_json:
             return jsonify({'erro': 'Não autenticado'}), 401
         return redirect(url_for('auth.login'))
