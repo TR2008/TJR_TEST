@@ -216,7 +216,7 @@ def api_tickets_create():
             recent = Encomenda.query.filter(Encomenda.cliente_id == cliente_obj.id, Encomenda.criado_em >= cutoff).all()
             # Consider states that define "in progress" — adjust according to your actual strings
             active_states = {'Pendente', 'Pending', 'Aguardando', 'Waiting'}
-            active_tickets = [e for e in recent if getattr(e, 'estado', '') in active_states or getattr(e, 'estado', '') == None]
+            active_tickets = [e for e in recent if getattr(e, 'estado', '') in active_states or getattr(e, 'estado', '') is None]
             active_count = len(active_tickets)
             if active_tickets:
                 # Calculate next availability: oldest created + window_hours

@@ -154,32 +154,3 @@ def checkout():
     session.modified = True
 
     return jsonify({'success': True, 'message': 'Encomenda criada', 'order': order, 'basket': {}, 'summary': {'total': 0.0, 'num_items': 0}})
-
-# --------------------------------------------------------
-# /detalhes redirect route -> redirects to /detalhes/<id> (1..11)
-# Accepts query param "id" or "n". If not provided, redirects to id=1.
-# --------------------------------------------------------
-@basket_bp.route('/detalhes')
-def detalhes_redirect():
-    id_param = request.args.get('id') or request.args.get('n')
-    if id_param:
-        try:
-            id_int = int(id_param)
-        except Exception:
-            abort(404)
-    else:
-        id_int = 1  # default
-
-    if not (1 <= id_int <= 11):
-        abort(404)
-
-    return redirect(url_for('basket.detalhes', id=id_int))
-
-@basket_bp.route('/detalhes/<int:id>')
-def detalhes(id):
-    # Look for templates/detalhes_<id>.html
-    template_name = f'detalhes_{id}.html'
-    try:
-        return render_template(template_name)
-    except TemplateNotFound:
-        abort(404)
