@@ -45,5 +45,12 @@ def create_app():
 
 app = create_app()
 
+
+# Define index route after app creation to avoid NameError
+@app.route('/')
+def index():
+    return "Flask app is running! Visit /login to start."
+
+
 if __name__ == '__main__':
     app.run(debug=True)
