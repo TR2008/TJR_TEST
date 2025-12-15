@@ -11,36 +11,32 @@ paginas_bp = Blueprint('paginas', __name__)
 @paginas_bp.route('/dashboard')
 def dashboard():
     # Ajuste a lógica de sessão conforme necessário (ex.: permitir anónimo)
-    if 'utilizador' in session:
+    if 'utilizador_id' not in session:
         return redirect(url_for('auth.login'))
     return render_template('paginas/dashboard.html')
 
 @paginas_bp.route('/contactos')
 def contactos():
-    if 'utilizador' in session:
-        return redirect(url_for('auth.login'))
+    # Public page - no authentication required
     return render_template('paginas/contactos.html')
 
 @paginas_bp.route('/produtos')
 @paginas_bp.route('/produtos_html')
 def produtos_html():
     # Rota que serve a página de produtos (endpoint: paginas.produtos_html)
-    if 'utilizador' in session:
-        return redirect(url_for('auth.login'))
+    # Public page - no authentication required
     from models import Produto  # opcional: carregar produtos do BD no futuro
     # Se quiser passar produtos do BD ao template: produtos = Produto.query.all()
     return render_template('paginas/produtos.html')
 
 @paginas_bp.route('/servicos')
 def servicos_html():
-    if 'utilizador' in session:
-        return redirect(url_for('auth.login'))
+    # Public page - no authentication required
     return render_template('paginas/servicos.html')
 
 @paginas_bp.route('/blog')
 def blog_html():
-    if'utilizador' in session:
-        return redirect(url_for('auth.login'))
+    # Public page - no authentication required
     return render_template('paginas/blog.html')
 
 @paginas_bp.route('/politica-privacidade', endpoint='politica_privacidade')
@@ -54,7 +50,7 @@ def sobre():
 @paginas_bp.route('/referencias', endpoint='referencias')
 def referencias():
     # Permitir apenas autenticados (ajuste conforme necessário)
-    if 'utilizador' not in session:
+    if 'utilizador_id' not in session:
         return redirect(url_for('auth.login'))
     return render_template('paginas/referencias.html')
 

@@ -7,7 +7,7 @@ cliente_bp = Blueprint('cliente', __name__)
 
 @cliente_bp.route('/cadastro', methods=['POST'])
 def cadastro():
-    if 'utilizador' not in session:
+    if 'utilizador_id' not in session:
         return jsonify({'erro': 'Não autenticado'}), 401
 
     data = request.get_json()
@@ -27,7 +27,7 @@ def cadastro():
 
 @cliente_bp.route('/clientes', methods=['GET'])
 def listar_clientes():
-    if 'utilizador' not in session:
+    if 'utilizador_id' not in session:
         return redirect(url_for('auth.login'))
 
     clientes = Cliente.query.all()
