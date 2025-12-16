@@ -1,0 +1,43 @@
+# Chaves de deploy SSH (não versionar!)
+deploy_key
+deploy_key.pub
+
+# Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+.Python
+
+# Ambientes virtuais
+venv/
+env/
+ENV/
+.venv
+
+# Variáveis de ambiente
+.env
+.env.local
+
+# Bases de dados
+*.db
+*.sqlite
+*.sqlite3
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Flask
+instance/
+.webassets-cache
+
+# Logs
+*.log
+
+# Ficheiros de sistema
+.DS_Store
+Thumbs.db
