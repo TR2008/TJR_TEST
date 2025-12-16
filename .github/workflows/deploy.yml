@@ -44,6 +44,7 @@ jobs:
             cd ${{ secrets.DEPLOY_PATH }}
             
             # Tentar localizar o pip do virtualenv do cPanel
+            # Nota: Atualizar a lista de versões quando novas versões Python forem disponibilizadas
             PIP_CMD=""
             for VERSION in 3.11 3.10 3.9 3.8 3.7; do
               if [ -f "$HOME/virtualenv/myflaskapp/$VERSION/bin/pip" ]; then
@@ -62,7 +63,13 @@ jobs:
             # Instalar dependências
             if [ -f "requirements.txt" ]; then
               echo "A instalar dependências..."
-              $PIP_CMD install --user -r requirements.txt
+              # Se estiver a usar virtualenv do cPanel, não usar --user
+              if [[ "$PIP_CMD" == *"virtualenv"* ]]; then
+                $PIP_CMD install -r requirements.txt
+              else
+                # Fallback: instalar com --user
+                $PIP_CMD install --user -r requirements.txt
+              fi
             else
               echo "⚠ Ficheiro requirements.txt não encontrado"
             fi

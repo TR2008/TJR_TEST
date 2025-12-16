@@ -16,17 +16,22 @@ if APP_DIR not in sys.path:
     sys.path.insert(0, APP_DIR)
 
 # Log de debug para ajudar a diagnosticar problemas
-print(f"[passenger_wsgi.py] WSGI iniciado", file=sys.stderr)
-print(f"[passenger_wsgi.py] Diretório da app: {APP_DIR}", file=sys.stderr)
-print(f"[passenger_wsgi.py] Python sys.path: {sys.path}", file=sys.stderr)
+# Defina DEBUG=True no ambiente para ativar logs detalhados
+DEBUG = os.environ.get('PASSENGER_DEBUG', 'False').lower() in ('true', '1', 'yes')
+
+if DEBUG:
+    print(f"[passenger_wsgi.py] WSGI iniciado", file=sys.stderr)
+    print(f"[passenger_wsgi.py] Diretório da app: {APP_DIR}", file=sys.stderr)
+    print(f"[passenger_wsgi.py] Python sys.path: {sys.path}", file=sys.stderr)
 
 try:
     # Importar a aplicação Flask
     # Assumindo que o ficheiro principal é 'app.py' e a variável Flask é 'app'
     from app import app as application
     
-    print(f"[passenger_wsgi.py] ✓ Aplicação Flask importada com sucesso", file=sys.stderr)
-    print(f"[passenger_wsgi.py] ✓ Aplicação WSGI: {application}", file=sys.stderr)
+    if DEBUG:
+        print(f"[passenger_wsgi.py] ✓ Aplicação Flask importada com sucesso", file=sys.stderr)
+        print(f"[passenger_wsgi.py] ✓ Aplicação WSGI: {application}", file=sys.stderr)
     
 except ImportError as e:
     print(f"[passenger_wsgi.py] ✗ ERRO ao importar aplicação: {e}", file=sys.stderr)
