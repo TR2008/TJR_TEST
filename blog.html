@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -11,7 +10,6 @@
             --bg: #eef6ff;
             --card: #ffffff;
             --muted: #666;
-            --table-odd: rgba(150, 212, 212, 0.4);
         }
 
         body {
@@ -33,17 +31,7 @@
             gap:12px;
         }
 
-        .cabecalho img.logo {
-            height:44px;
-            width:auto;
-            display:block;
-        }
-
-        .cabecalho h1 {
-            margin: 0;
-            font-size: 28px;
-            line-height:1;
-        }
+        .cabecalho img.logo { height:44px; width:auto; display:block; }
 
         .container {
             max-width: 1100px;
@@ -59,15 +47,7 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.06);
         }
 
-        .post h2, .post h3 {
-            margin-top: 0;
-            color: var(--accent);
-        }
-
-        .muted {
-            color: var(--muted);
-            font-size: 0.95rem;
-        }
+        .muted { color: var(--muted); font-size: 0.95rem; }
 
         .posts-grid {
             display: grid;
@@ -78,16 +58,8 @@
         .excerpt { margin: 8px 0 0; color:#333; line-height:1.45; }
 
         .cta {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content:space-between;
-            background: var(--card);
-            padding: 14px;
-            border-radius:8px;
-            box-shadow:0 6px 18px rgba(16,24,40,0.06);
+            display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+            background: var(--card); padding:14px; border-radius:8px; box-shadow:0 6px 18px rgba(16,24,40,0.06);
         }
 
         .btn {
@@ -108,7 +80,31 @@
             padding: 6px 12px;
         }
 
-        @media (max-width: 700px) {
+        /* Radar image styles */
+        figure.radar {
+            margin: 18px 0;
+            background: var(--card);
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+            text-align: center;
+        }
+
+        figure.radar img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 6px;
+        }
+
+        figure.radar figcaption {
+            margin-top:8px;
+            font-size:0.9rem;
+            color: var(--muted);
+        }
+
+        @media (max-width:700px){
             .cabecalho { flex-direction: column; gap:8px; padding:16px; }
             .cabecalho img.logo { height:40px; }
         }
@@ -122,14 +118,36 @@
             <div style="font-size:0.95rem; opacity:0.95;">Notícias, artigos técnicos e estudos de caso sobre HVAC e automação.</div>
         </div>
     </header>
-<img class="" src="{{ url_for('static', filename='images/'radar_radadr_with_legend.png) }}" alt="Radar">
+
     <main class="container">
+        <!-- INTEGRAÇÃO DO RADAR:
+             - Opção A (local): o ficheiro deve existir em static/images/radar_radadr_with_legend.png
+             - Opção B (dinâmico): passar radar_url pela view Flask (ex: render_template('blog.html', radar_url=...))
+        -->
+        <figure class="radar" aria-label="Radar meteorológico">
+            {# Se usar URL dinâmica, a view define radar_url; caso contrário, usamos a imagem local como fallback #}
+            {% if radar_url %}
+                <img
+                    src="{{ radar_url }}"
+                    alt="Imagem de radar meteorológico atual"
+                    loading="lazy"
+                    onerror="this.onerror=null; this.src='{{ url_for('static', filename='images/radar_radadr_with_legend.png') }}';"
+                >
+            {% else %}
+                <img
+                    src="{{ url_for('static', filename='images/radar_radadr_with_legend.png') }}"
+                    alt="Radar meteorológico"
+                    loading="lazy"
+                >
+            {% endif %}
+            <figcaption>Radar meteorológico — última atualização automática.</figcaption>
+        </figure>
+
         <section style="margin:18px 0;">
             <h2>Últimos artigos</h2>
             <p class="muted">Tutoriais, estudos de caso e artigos técnicos aplicáveis a projetos de climatização e automação.</p>
         </section>
 
-        <!-- Lista dinâmica se a rota passar 'posts', caso contrário o conteúdo estático abaixo será mostrado -->
         {% if posts %}
         <section class="posts-grid" aria-label="Lista de posts">
             {% for post in posts %}
@@ -139,9 +157,8 @@
                 <p class="excerpt">{{ post.resumo }}</p>
                 <p style="margin-top:8px;color:#444;">{{ post.conteudo }}</p>
                 <div style="margin-top:10px;">
-                    <!-- corrigido: usar o endpoint existente servicos_html -->
                     <a class="btn" href="{{ url_for('paginas.servicos_html') }}">Ver Serviços</a>
-                    <a class="btn secondary" href="{{ url_for('paginas.contactos') }}">Contactos</a>
+                    <a class="btn secondary" href="{{ url_for('paginas.contactos') }}">Contatos</a>
                 </div>
             </article>
             {% endfor %}
@@ -154,7 +171,7 @@
             <h3>Portfólio</h3>
             <ul>
                 <li>Linguagem Ladder</li>
-                <li>Análise Dinamicas de Mercados</li>
+                <li>Análise Dinâmica de Mercados</li>
                 <li>Inteligência Artificial</li>
                 <li>Raspberry Pi</li>
             </ul>
@@ -166,9 +183,8 @@
                 Quando 2 sondas atingem temperaturas de -20 ºC atuam a função do degelo, que basicamente faz inversão de ciclos de condensação e evaporação de fluido.
             </p>
             <div style="margin-top:12px;">
-                <!-- corrigido aqui também -->
                 <a class="btn" href="{{ url_for('paginas.servicos_html') }}">Ver Serviços</a>
-                <a class="btn secondary" href="{{ url_for('paginas.contactos') }}">Contactos</a>
+                <a class="btn secondary" href="{{ url_for('paginas.contactos') }}">Contatos</a>
             </div>
         </section>
         {% endif %}
@@ -176,9 +192,8 @@
         <section class="cta" aria-label="Chamada para ação">
             <p style="margin:0;font-weight:600;color:var(--accent);">Quer transformar o seu projeto com automação e eficiência energética?</p>
             <div>
-                <!-- e aqui -->
                 <a class="btn" href="{{ url_for('paginas.servicos_html') }}">Solicitar Orçamento</a>
-                <a class="btn secondary" href="{{ url_for('paginas.contactos') }}">Fale Connosco</a>
+                <a class="btn secondary" href="{{ url_for('paginas.contactos') }}">Fale Conosco</a>
             </div>
         </section>
     </main>
@@ -186,5 +201,19 @@
     <footer style="text-align:center;color:var(--muted);padding:18px 0;">
         © 2025 Automação & Climatização — Todos os direitos reservados
     </footer>
+
+    <!-- Pequeno script opcional para forçar atualização (cache-busting) caso precise recarregar imagem periodicamente -->
+    <script>
+        // exemplo: atualizar a imagem do radar a cada 5 minutos adicionando query param timestamp
+        (function autoRefreshRadar(){
+            const img = document.querySelector('figure.radar img');
+            if (!img) return;
+            const intervalMs = 5 * 60 * 1000; // 5 minutos
+            setInterval(() => {
+                const src = img.getAttribute('src').split('?')[0];
+                img.setAttribute('src', src + '?_=' + Date.now());
+            }, intervalMs);
+        })();
+    </script>
 </body>
 </html>

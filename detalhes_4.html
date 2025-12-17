@@ -1,53 +1,95 @@
-<div style="padding:12px; max-width:720px; box-sizing:border-box;">
-  <!-- Banner / logo no topo -->
-  <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
-    <img src="{{ url_for('static', filename='images/TJRArcondicionado.png') }}"
-         alt="TJR - Ar Condicionado"
-         style="height:48px; width:auto; display:block;">
-    <h3 style="margin:0;font-size:1.05rem;">Kit Triplo — 2×5m + 1×10m + Cabos Eléctricos</h3>
-  </div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Detalhes — Kit Triplo</title>
+  <style>
+    :root{
+      --accent:#FF4500;
+      --muted:#666;
+      --card:#fff;
+      --shadow:0 6px 18px rgba(0,0,0,0.06);
+      --radius:8px;
+      --max-width:760px;
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color:#222;
+    }
 
-  <div class="muted" style="margin-bottom:8px;">O pacote contém as mesmas características e materiais do detalhe 1, organizado para 2 kits de 5m e 2 kit de 10m:</div>
+    .container{
+      max-width:var(--max-width);
+      margin:14px auto;
+      padding:16px;
+      background:var(--card);
+      border-radius:10px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.03);
+      box-sizing:border-box;
+    }
 
-  <ul style="margin:8px 0 12px 18px; color: #2b2b2b;">
-    <li><strong>2 × Kit de tubos</strong> — 5 m cada</li>
-    <li><strong>2 × Kit de tubo</strong> — 10 m</li>
-    <li><strong>Cabo H05VV-F 3G 1,5 mm²</strong> — cor: preto</li>
-    <li><strong>Cabo H05VV-F 5G 1,5 mm²</strong> — cor: preto</li>
-    <li><strong>Acessórios</strong> — conectores, braçadeiras e material de fixação (mesmos materiais padrão do detalhe 1)</li>
-  </ul>
+    .header{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:10px;
+    }
+    .header img.logo{ height:50px; width:auto; display:block; }
+    h1.title{ margin:0; font-size:1.05rem; }
 
-  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-    <figure style="flex:1 1 220px; margin:0;">
-      <a href="{{ url_for('static', filename='images/kit_tubos.jpg') }}" target="_blank" rel="noopener">
-        <img src="{{ url_for('static', filename='images/kit_tubos.jpg') }}"
-             alt="Kit de tubos para instalação"
-             style="width:100%; height:auto; border-radius:8px; display:block; box-shadow:0 6px 18px rgba(0,0,0,0.12);"
-             loading="lazy">
-      </a>
-      <figcaption style="font-size:13px; color:#555; margin-top:6px;">Kit de tubos — visual do material incluído</figcaption>
-    </figure>
+    .muted{ color:var(--muted); font-size:0.95rem; }
 
-    <figure style="flex:1 1 220px; margin:0;">
-      <a href="{{ url_for('static', filename='images/cabos_1.jpg') }}" target="_blank" rel="noopener">
-        <img src="{{ url_for('static', filename='images/cabos_1.jpg') }}"
-             alt="Cabos H05VV-F incluídos no pacote"
-             style="width:100%; height:auto; border-radius:8px; display:block; box-shadow:0 6px 18px rgba(0,0,0,0.12);"
-             loading="lazy">
-      </a>
-      <figcaption style="font-size:13px; color:#555; margin-top:6px;">Cabos H05VV-F 3G/5G — exemplos</figcaption>
-    </figure>
-  </div>
+    .features{ margin:10px 0 16px 18px; color:#222; line-height:1.5; }
 
-  <div style="margin-top:12px;" class="muted">Observações:</div>
-  <ul style="margin:6px 0 0 18px; color: #2b2b2b;">
-    <li>Comprimentos e quantidades padrão estão indicados; medidas finais podem variar conforme as condições no local.</li>
-    <li>Materiais adicionais (mais tubos, condutas mais longas, suportes, canalizações complexas, pintura, etc.) são cobrados à parte.</li>
-    <li>Se precisar de especificações técnicas ou marcas dos cabos/tubos, indique e enviamos ficha técnica ou orçamento detalhado.</li>
-  </ul>
+    .gallery{ display:flex; gap:10px; flex-wrap:wrap; margin-top:8px; }
 
-  <div style="margin-top:12px; display:flex; gap:8px;">
-    <button class="btn ghost" onclick="closeDetailsModal()">Fechar</button>
-    <button class="btn" style="margin-left:auto;" onclick="addToBasket('3', this)">Adicionar Kit Triplo</button>
-  </div>
-</div>
+    figure.card{
+      flex:1 1 220px;
+      margin:0;
+      background:#fafafa;
+      padding:8px;
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+    figure.card img{ width:100%; height:auto; border-radius:6px; display:block; }
+    figure.card figcaption{ font-size:13px; color:#555; margin-top:8px; }
+
+    .notes{ margin:12px 0 0 18px; color:#222; }
+
+    .actions{ margin-top:14px; display:flex; gap:8px; align-items:center; }
+    .btn{
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      padding:9px 14px;
+      border-radius:6px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .btn.ghost{ background:transparent; color:var(--accent); border:2px solid var(--accent); padding:7px 12px; }
+
+    @media (max-width:700px){
+      .container{ padding:12px; }
+      .header img.logo{ height:40px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="container" role="main" aria-labelledby="kit-triplo-title">
+    <header class="header">
+      <img class="logo" src="{{ url_for('static', filename='images/TJRArcondicionado.png') }}" alt="TJR - Ar Condicionado">
+      <h1 id="kit-triplo-title" class="title">Kit Triplo — 2×5m + 1×10m + Cabos Eléctricos</h1>
+    </header>
+
+    <p class="muted">O pacote contém as mesmas características e materiais do detalhe 1, organizado para kits múltiplos conforme abaixo:</p>
+
+    <ul class="features" aria-label="Itens do pacote">
+      <li><strong>2 × Kit de tubos 10 m</strong> — tubagem e acessórios para uma ligação de 10 metros.</li>
+      <li><strong>Cabo H05VV-F 3G 1,5 mm²</strong> — cor: preto.</li>
+      <li><strong>Cabo H05VV-F 5G 1,5 mm²</strong> — cor: preto.</li>
+      <li><strong>Ancoragem</strong> — suportes de parede ou suporte de chão com sinoblocos conforme necessidade.</li>
+      <li><strong>Acessórios</strong> — conectores, braçadeiras e material de fixação (mesmo padrão do detalhe 1).</li>
+    </ul>
+
+    <section class="gallery" aria-label="Galeria de imagens do kit triplo">
+      <!-- Kit tubos (exemplo) -->
+      <figure class="card">
+        <a href="{{ url_for
