@@ -1,53 +1,264 @@
-<div style="padding:12px; max-width:720px; box-sizing:border-box;">
-  <!-- Banner / logo no topo -->
-  <div style="display:flex; align-items:center; gap:12px; margin-bottom:8px;">
-    <img src="{{ url_for('static', filename='images/TJRArcondicionado.png') }}"
-         alt="TJR - Ar Condicionado"
-         style="height:48px; width:auto; display:block;">
-    <h3 style="margin:0;font-size:1.05rem;">Kit Triplo — 2×5m + 1×10m + Cabos Eléctricos</h3>
-  </div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Detalhes — Instalação Simples</title>
+  <style>
+    :root{
+      --accent: #FF4500;
+      --muted: #666;
+      --bg-card: #fff;
+      --gap: 12px;
+      --radius: 8px;
+      --shadow: 0 6px 18px rgba(0,0,0,0.08);
+      --max-width: 720px;
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      color: #222;
+    }
 
-  <div class="muted" style="margin-bottom:8px;">O pacote contém as mesmas características e materiais do detalhe 1, organizado para 2 kits de 5m e 1 kit de 10m:</div>
+    .details-container{
+      max-width: var(--max-width);
+      margin: 12px auto;
+      padding: 14px;
+      background: var(--bg-card);
+      border-radius: 10px;
+      box-sizing: border-box;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
 
-  <ul style="margin:8px 0 12px 18px; color: #2b2b2b;">
-    <li><strong>2 × Kit de tubos</strong> — 5 m cada</li>
-    <li><strong>1 × Kit de tubo</strong> — 10 m</li>
-    <li><strong>Cabo H05VV-F 3G 1,5 mm²</strong> — cor: preto</li>
-    <li><strong>Cabo H05VV-F 5G 1,5 mm²</strong> — cor: preto</li>
-    <li><strong>Acessórios</strong> — conectores, braçadeiras e material de fixação (mesmos materiais padrão do detalhe 1)</li>
-  </ul>
+    .details-header{
+      display:flex;
+      gap:var(--gap);
+      align-items:center;
+      margin-bottom:10px;
+    }
 
-  <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
-    <figure style="flex:1 1 220px; margin:0;">
-      <a href="{{ url_for('static', filename='images/kit_tubos.jpg') }}" target="_blank" rel="noopener">
-        <img src="{{ url_for('static', filename='images/kit_tubos.jpg') }}"
-             alt="Kit de tubos para instalação"
-             style="width:100%; height:auto; border-radius:8px; display:block; box-shadow:0 6px 18px rgba(0,0,0,0.12);"
-             loading="lazy">
-      </a>
-      <figcaption style="font-size:13px; color:#555; margin-top:6px;">Kit de tubos — visual do material incluído</figcaption>
-    </figure>
+    .details-header img.logo{
+      height:48px;
+      width:auto;
+      display:block;
+    }
 
-    <figure style="flex:1 1 220px; margin:0;">
-      <a href="{{ url_for('static', filename='images/cabos_1.jpg') }}" target="_blank" rel="noopener">
-        <img src="{{ url_for('static', filename='images/cabos_1.jpg') }}"
-             alt="Cabos H05VV-F incluídos no pacote"
-             style="width:100%; height:auto; border-radius:8px; display:block; box-shadow:0 6px 18px rgba(0,0,0,0.12);"
-             loading="lazy">
-      </a>
-      <figcaption style="font-size:13px; color:#555; margin-top:6px;">Cabos H05VV-F 3G/5G — exemplos</figcaption>
-    </figure>
-  </div>
+    .details-title{
+      margin:0;
+      font-size:1.05rem;
+    }
 
-  <div style="margin-top:12px;" class="muted">Observações:</div>
-  <ul style="margin:6px 0 0 18px; color: #2b2b2b;">
-    <li>Comprimentos e quantidades padrão estão indicados; medidas finais podem variar conforme as condições no local.</li>
-    <li>Materiais adicionais (mais tubos, condutas mais longas, suportes, canalizações complexas, pintura, etc.) são cobrados à parte.</li>
-    <li>Se precisar de especificações técnicas ou marcas dos cabos/tubos, indique e enviamos ficha técnica ou orçamento detalhado.</li>
-  </ul>
+    .muted{
+      color:var(--muted);
+      font-size:0.95rem;
+    }
 
-  <div style="margin-top:12px; display:flex; gap:8px;">
-    <button class="btn ghost" onclick="closeDetailsModal()">Fechar</button>
-    <button class="btn" style="margin-left:auto;" onclick="addToBasket('3', this)">Adicionar Kit Triplo</button>
-  </div>
-</div>
+    .pkg-list{
+      margin:8px 0 14px 18px;
+      color:#2b2b2b;
+      line-height:1.45;
+    }
+
+    .gallery{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:8px;
+    }
+
+    figure.card{
+      flex:1 1 220px;
+      margin:0;
+      background: #fafafa;
+      padding:8px;
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+    }
+    figure.card img{
+      width:100%;
+      height:auto;
+      border-radius:6px;
+      display:block;
+    }
+    figure.card figcaption{
+      font-size:13px;
+      color:#555;
+      margin-top:8px;
+    }
+
+    .obs-list{
+      margin:8px 0 0 18px;
+      color:#2b2b2b;
+    }
+
+    .actions{
+      margin-top:14px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .btn{
+      background:var(--accent);
+      color:#fff;
+      border:none;
+      padding:9px 14px;
+      border-radius:6px;
+      cursor:pointer;
+      font-weight:600;
+    }
+    .btn[disabled]{ opacity:0.6; cursor:not-allowed; }
+
+    .btn.ghost{
+      background:transparent;
+      color:var(--accent);
+      border:2px solid var(--accent);
+      padding:7px 12px;
+    }
+
+    .status {
+      margin-left:12px;
+      font-size:0.95rem;
+      color:var(--muted);
+    }
+
+    @media (max-width:700px){
+      .details-container{ padding:12px; }
+      .details-header img.logo{ height:40px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="details-container" role="main" aria-labelledby="detalhes-titulo">
+    <header class="details-header">
+      <img class="logo" src="{{ url_for('static', filename='images/TJRArcondicionado.png') }}" alt="TJR - Ar Condicionado">
+      <h1 id="detalhes-titulo" class="details-title">Instalação Simples — Conteúdo do Pacote</h1>
+    </header>
+
+    <p class="muted">O pacote "Instalação Simples" inclui os seguintes materiais padrão:</p>
+
+    <ul class="pkg-list">
+      <li><strong>Kit de tubos</strong> — 3 m (tubagem para ligação frigorífica / drenagem conforme necessidade)</li>
+      <li><strong>Cabo H05VV-F 3G 1,5 mm²</strong> — cor: preto (alimentação simples)</li>
+      <li><strong>Cabo H05VV-F 5G 1,5 mm²</strong> — cor: preto (condutor adicional / terra / sinais)</li>
+      <li><strong>Ancoragem</strong> — suporte de parede ou suporte de chão ,sinoblocos conforme necessidade)</li>
+    </ul>
+
+    <!-- Galeria de imagens (kit tubos, cabos, ancoragem) -->
+    <section class="gallery" aria-label="Galeria de imagens do pacote">
+      <!-- Kit de tubos -->
+      <figure class="card">
+        <a href="{{ url_for('static', filename='images/kit_tubos-full.jpg') }}" target="_blank" rel="noopener" aria-describedby="cap-kit">
+          <picture>
+            <source type="image/webp"
+                    srcset="{{ url_for('static', filename='images/kit_tubos-400.webp') }} 400w, {{ url_for('static', filename='images/kit_tubos-800.webp') }} 800w, {{ url_for('static', filename='images/kit_tubos-1200.webp') }} 1200w"
+                    sizes="(max-width:480px) 90vw, (max-width:768px) 45vw, 33vw">
+            <img src="{{ url_for('static', filename='images/kit_tubos-800.jpg') }}"
+                 srcset="{{ url_for('static', filename='images/kit_tubos-400.jpg') }} 400w, {{ url_for('static', filename='images/kit_tubos-800.jpg') }} 800w"
+                 sizes="(max-width:480px) 90vw, (max-width:768px) 45vw, 33vw"
+                 alt="Kit de tubos para instalação — conjunto de tubos e acessórios"
+                 loading="lazy" decoding="async">
+          </picture>
+        </a>
+        <figcaption id="cap-kit">Kit de tubos — visual do material incluído</figcaption>
+      </figure>
+
+      <!-- Cabos -->
+      <figure class="card">
+        <a href="{{ url_for('static', filename='images/cabos_1-full.jpg') }}" target="_blank" rel="noopener" aria-describedby="cap-cabos">
+          <picture>
+            <source type="image/webp"
+                    srcset="{{ url_for('static', filename='images/cabos_1-400.webp') }} 400w, {{ url_for('static', filename='images/cabos_1-800.webp') }} 800w"
+                    sizes="(max-width:480px) 90vw, (max-width:768px) 45vw, 33vw">
+            <img src="{{ url_for('static', filename='images/cabos_1-800.jpg') }}"
+                 srcset="{{ url_for('static', filename='images/cabos_1-400.jpg') }} 400w, {{ url_for('static', filename='images/cabos_1-800.jpg') }} 800w"
+                 sizes="(max-width:480px) 90vw, (max-width:768px) 45vw, 33vw"
+                 alt="Cabos H05VV-F incluídos no pacote — cabos 3G e 5G"
+                 loading="lazy" decoding="async">
+          </picture>
+        </a>
+        <figcaption id="cap-cabos">Cabos H05VV-F 3G/5G — exemplos</figcaption>
+      </figure>
+
+      <!-- Ancoragem -->
+      <figure class="card">
+        <a href="{{ url_for('static', filename='images/ancoragem-full.jpg') }}" target="_blank" rel="noopener" aria-describedby="cap-anc">
+          <picture>
+            <source type="image/webp"
+                    srcset="{{ url_for('static', filename='images/ancoragem-400.webp') }} 400w, {{ url_for('static', filename='images/ancoragem-800.webp') }} 800w, {{ url_for('static', filename='images/ancoragem-1200.webp') }} 1200w"
+                    sizes="(max-width:480px) 90vw, (max-width:768px) 45vw, 33vw">
+            <img src="{{ url_for('static', filename='images/ancoragem-800.jpg') }}"
+                 srcset="{{ url_for('static', filename='images/ancoragem-400.jpg') }} 400w, {{ url_for('static', filename='images/ancoragem-800.jpg') }} 800w"
+                 sizes="(max-width:480px) 90vw, (max-width:768px) 45vw, 33vw"
+                 alt="Suporte de ancoragem para unidade exterior — exemplo de fixação"
+                 loading="lazy" decoding="async">
+          </picture>
+        </a>
+        <figcaption id="cap-anc">Suporte / ancoragem — exemplo de fixação para unidade exterior</figcaption>
+      </figure>
+    </section>
+
+    <div style="margin-top:12px;" class="muted" aria-hidden="false">Observações:</div>
+    <ul class="obs-list">
+      <li>Comprimentos e quantidades padrão; medidas finais podem variar conforme condições no local.</li>
+      <li>Materiais adicionais (mais tubos, suportes especiais, pintura) são cobrados à parte.</li>
+      <li>Se precisar de especificações técnicas ou marcas, solicitamos envio para que enviemos ficha técnica ou orçamento detalhado.</li>
+    </ul>
+
+    <div class="actions" aria-live="polite">
+      <button type="button" class="btn ghost" onclick="closeDetailsModal()" aria-label="Fechar detalhes">Fechar</button>
+      <button id="add-btn" type="button" class="btn" style="margin-left:auto;" onclick="addToBasket('1', this)" aria-label="Adicionar Instalação Simples">Adicionar Instalação Simples</button>
+      <span id="status" class="status" role="status" aria-live="polite"></span>
+    </div>
+  </main>
+
+  <script>
+    // Fechar modal / voltar — adapta conforme a tua app (modal ou página dedicada)
+    function closeDetailsModal(){
+      // Se estiver dentro de um modal disparar evento para o pai
+      const ev = new CustomEvent('close-details', { bubbles: true });
+      document.dispatchEvent(ev);
+
+      // Se for uma página independente, volta uma página no histórico
+      if (window.history && window.history.length > 1) {
+        window.history.back();
+      }
+    }
+
+    // Função para adicionar ao carrinho
+    async function addToBasket(productId, btn){
+      const statusEl = document.getElementById('status');
+      btn.disabled = true;
+      const prevText = btn.textContent;
+      btn.textContent = 'A adicionar...';
+
+      // If you have an API endpoint, adapt the fetch URL & payload.
+      // This block is intentionally permissive: se o endpoint falhar, mostramos mensagem amigável.
+      try {
+        // Exemplo de chamada (descomente e adapte se tiveres endpoint)
+        // const resp = await fetch('/api/cart/add', {
+        //   method: 'POST',
+        //   headers: {'Content-Type': 'application/json'},
+        //   body: JSON.stringify({ product_id: productId, qty: 1 })
+        // });
+        // const data = await resp.json();
+
+        // Simular sucesso (remove esta simulação se fizeres fetch real)
+        await new Promise(r => setTimeout(r, 700));
+        const success = true;
+
+        if (success) {
+          statusEl.textContent = 'Adicionado ao carrinho';
+          // disparar evento para UI externa atualizar badges, etc.
+          document.dispatchEvent(new CustomEvent('item-added', { detail: { productId } }));
+        } else {
+          statusEl.textContent = 'Erro ao adicionar. Tente novamente.';
+        }
+      } catch (err) {
+        console.error('Erro ao adicionar ao carrinho', err);
+        statusEl.textContent = 'Erro ao adicionar. Ver consola.';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = prevText;
+      }
+    }
+  </script>
+</body>
+</html>
