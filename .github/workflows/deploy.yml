@@ -1,0 +1,96 @@
+name: Deploy Flask to cPanel
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to cPanel via SSH
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+    
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+      
+      - name: Configurar SSH Agent
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_KEY }}
+      
+      - name: Adicionar host SSH ao known_hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+      
+      - name: Sincronizar ficheiros via rsync
+        run: |
+          rsync -avz --delete \
+            --exclude='.git/' \
+            --exclude='.github/' \
+            --exclude='deploy_key*' \
+            --exclude='*.pyc' \
+            --exclude='__pycache__/' \
+            --exclude='.env' \
+            --exclude='venv/' \
+            --exclude='*.db' \
+            -e "ssh -p ${{ secrets.SSH_PORT }}" \
+            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:${{ secrets.DEPLOY_PATH }}/
+      
+      - name: Instalar dependências Python no servidor
+        run: |
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'ENDSSH'
+            cd ${{ secrets.DEPLOY_PATH }}
+            
+            # Tentar localizar o pip do virtualenv do cPanel
+            # Nota: Atualizar a lista de versões quando novas versões Python forem disponibilizadas
+            PIP_CMD=""
+            for VERSION in 3.11 3.10 3.9 3.8 3.7; do
+              if [ -f "$HOME/virtualenv/myflaskapp/$VERSION/bin/pip" ]; then
+                PIP_CMD="$HOME/virtualenv/myflaskapp/$VERSION/bin/pip"
+                echo "✓ Encontrado pip do virtualenv: $PIP_CMD"
+                break
+              fi
+            done
+            
+            # Fallback para python3 -m pip se não encontrar virtualenv
+            if [ -z "$PIP_CMD" ]; then
+              echo "⚠ Virtualenv não encontrado, a usar python3 -m pip"
+              PIP_CMD="python3 -m pip"
+            fi
+            
+            # Instalar dependências
+            if [ -f "requirements.txt" ]; then
+              echo "A instalar dependências..."
+              # Se estiver a usar virtualenv do cPanel, não usar --user
+              if [[ "$PIP_CMD" == *"virtualenv"* ]]; then
+                $PIP_CMD install -r requirements.txt
+              else
+                # Fallback: instalar com --user
+                $PIP_CMD install --user -r requirements.txt
+              fi
+            else
+              echo "⚠ Ficheiro requirements.txt não encontrado"
+            fi
+          ENDSSH
+      
+      - name: Recarregar Passenger (tocar passenger_wsgi.py)
+        run: |
+          ssh -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << 'ENDSSH'
+            cd ${{ secrets.DEPLOY_PATH }}
+            if [ -f "passenger_wsgi.py" ]; then
+              touch passenger_wsgi.py
+              echo "✓ Passenger recarregado com sucesso"
+            else
+              echo "⚠ Ficheiro passenger_wsgi.py não encontrado"
+            fi
+          ENDSSH
+      
+      - name: Verificar estado do deploy
+        run: |
+          echo "✓ Deploy concluído com sucesso!"
+          echo "Aplicação disponível em: https://hvacsolution81.com/"
