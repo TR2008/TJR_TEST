@@ -90,7 +90,12 @@ def inserir_cliente():
 
     return render_template('login.html', reg_form=reg_form, form=form, mensagem=mensagem)
 
-# manter alias se necessário
+# rota register (deve ir para inserir_cliente)
 @auth_bp.route('/register', methods=['GET', 'POST'])
+def register():
+    return inserir_cliente()
+
+# manter alias se necessário
+@auth_bp.route('/register_alias', methods=['GET', 'POST'])
 def register_alias():
     return redirect(url_for('auth.inserir_cliente'))
