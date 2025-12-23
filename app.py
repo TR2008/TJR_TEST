@@ -23,11 +23,11 @@ def create_app():
 
     # registar blueprints (ajuste nomes se necessário)
     try:
-        from routes.auth import auth_bp
-        from routes.cliente import cliente_bp
-        from routes.produto import produto_bp
-        from routes.paginas import paginas_bp
-        from routes.basket import basket_bp
+        from auth import auth_bp
+        from cliente import cliente_bp
+        from produto import produto_bp
+        from paginas import paginas_bp
+        from basket import basket_bp
     except Exception:
         # se alguns blueprints não existirem, ignore e continue (útil para testes)
         auth_bp = None
